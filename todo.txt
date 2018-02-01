@@ -1,5 +1,7 @@
+https://github.com/plataformatec/devise#starting-with-rails
 https://learn.co/lessons/devise_pundit_readme
 
+$ rails g devise:install # =>
 ===============================================================================
 
 Some setup you must do manually if you haven't yet:
