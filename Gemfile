@@ -67,3 +67,5 @@ gem 'less-rails' # Sprockets (what Rails 3.1 uses for its asset pipeline) suppor
 gem 'twitter-bootstrap-rails', '~> 4.0'
 gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
 gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.2'
+
+gem 'pundit', '~> 1.1'
