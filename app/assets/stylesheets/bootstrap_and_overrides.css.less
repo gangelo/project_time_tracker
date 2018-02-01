@@ -1,12 +1,20 @@
 @import "twitter/bootstrap/bootstrap";
 
-// Glyphicons are not required by default, uncomment the following lines to enable them.
-//@glyphiconsEotPath: font-url("glyphicons-halflings-regular.eot");
-//@glyphiconsEotPath_iefix: font-url("glyphicons-halflings-regular.eot?#iefix");
-//@glyphiconsWoffPath: font-url("glyphicons-halflings-regular.woff");
-//@glyphiconsTtfPath: font-url("glyphicons-halflings-regular.ttf");
-//@glyphiconsSvgPath: font-url("glyphicons-halflings-regular.svg#glyphicons_halflingsregular");
-//
+// Set the correct sprite paths
+@iconSpritePath: image-url("twitter/bootstrap/glyphicons-halflings.png");
+@iconWhiteSpritePath: image-url("twitter/bootstrap/glyphicons-halflings-white.png");
+
+// Set the Font Awesome (Font Awesome is default. You can disable by commenting below lines)
+@fontAwesomeEotPath: font-url("fontawesome-webfont.eot");
+@fontAwesomeEotPath_iefix: font-url("fontawesome-webfont.eot?#iefix");
+@fontAwesomeWoffPath: font-url("fontawesome-webfont.woff");
+@fontAwesomeTtfPath: font-url("fontawesome-webfont.ttf");
+@fontAwesomeSvgPath: font-url("fontawesome-webfont.svg#fontawesomeregular");
+
+// Font Awesome
+// @import "fontawesome/font-awesome";
+
+// Glyphicons
 //@import "twitter/bootstrap/glyphicons.less";
 
 // Your custom LESS stylesheets goes here
@@ -19,3 +27,174 @@
 //
 // Example:
 // @link-color: #ff0000;
+
+@golden-ratio: 1.618;
+@default-orange: #f90;
+@default-orange-dark: #b45f06;
+@edit-color: #5CB85C;
+@delete-color: #D9534F;
+@view-color: #428BCA;
+
+// Extend the bootstrap .container class for the header tag.
+header, main, footer {
+  &:extend(.container);
+}
+
+.border-radius(@radius){
+    .border-top-radius(@radius);
+    .border-right-radius(@radius);
+    .border-bottom-radius(@radius);
+    .border-left-radius(@radius);
+}
+
+.panel-gray {
+  &:extend(.panel-primary > .panel-heading);
+  color: #333 !important;
+  background-color: #eee !important;
+  border-color: #ccc !important;
+}
+
+.panel-gray > .panel-body {
+  background-color: #fff;
+}
+
+.panel-pad-lg {
+  padding: 15px;
+}
+
+// Skill buttons
+.btn-skill {
+  &:extend(.btn-success);
+
+  margin-right:.33em;
+  margin-bottom:.33em;
+
+  &>i {
+    color:#356F35;
+  }
+}
+
+.modal>.modal-dialog>.modal-content>.modal-header {
+  &.default {
+    color: #333;
+    background-color: #eee;
+    border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+  }
+
+  &.orange {
+    color: #333;
+    background-color: @default-orange;
+    border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+  }
+}
+
+// Skill buttons
+.btn-special {
+  &:extend(.btn-warning);
+  background-color: @default-orange;
+
+  &.dark {
+    color: #333;
+  }
+}
+
+.btn {
+  &.transparent {
+    background-color: transparent !important;
+    border: 0 !important;
+    //color: inherit;
+  }
+}
+
+.btn-delete {
+  color: @delete-color !important;
+}
+
+.btn-edit {
+  color: @edit-color !important;
+}
+
+.btn-view, .btn-preview {
+  color: @view-color !important;
+}
+
+a.btn {
+  &:extend(.btn);
+  color: inherit;
+}
+
+a.btn-special {
+  &:extend(.btn-special);
+}
+
+a.btn-default {
+  &:extend(.btn-default);
+}
+
+a.btn-cancel {
+  &:extend(.btn-cancel);
+}
+
+/* Search skills */
+.btn.btn-skill-valid-false {
+  background-color: #d00 !important;
+  border-color: #b00 !important;
+}
+
+.fa.btn-skill-valid-false {
+  color: #700 !important;
+}
+
+/* Font Awesome tweeks*/
+.thumbnail > .fa.fa-xl {
+  font-size: 12em;
+  padding:9px;
+}
+
+.thumbnail > .fa.fa-md {
+  font-size: 7em;
+  padding:9px;
+}
+
+.thumbnail > .caption > .blurb {
+  min-height: 50px;
+}
+
+// Skill buttons
+
+// will_paginate styles
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+  z-index: 2;
+  color: #333;
+  font-weight: bold;
+  background-color: @default-orange;
+  border-color: #ddd;
+  cursor: default;
+  .border-radius(5px);
+}
+
+.pagination > li > a, .pagination > li > span {
+  position: relative;
+  float: left;
+  padding: 6px 10px;
+  line-height: 1.75;
+  text-decoration: none;
+  color: #000;
+  background-color: #ffffff;
+  border: 0px solid #dddddd;
+  margin-left: -1px;
+  font-size: 1.25em !important;
+}
+
+.pagination > .previous_page > a > i.fa, .pagination > .next_page > a > i.fa {
+  color: @default-orange;
+}
+
+.pageer-center {
+  margin: 0 auto;
+  float: none;
+}
+
+// end - will_paginate styles

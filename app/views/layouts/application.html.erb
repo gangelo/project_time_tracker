@@ -1,16 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CovermymedsDevisePundit</title>
+    <title>CoverMyMeds Code Day Project</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
+
+    <% if content_for? :head %>
+      <%= yield :head %>
+    <% end %>
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= yield %>
+    <section id="flash-container">
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+    </section>
+    <header class="container">
+      <section>
+        <h1>header<h1>
+      </section>
+      <nav>
+        <h2>navigation</h2>
+      </nav>
+    </header>
+    <main id="body">
+      <div class="thumbnail">
+        <i class='fa fa-search fa-md'></i>
+      </div>
+      <%= yield %>
+    </main>
+    <footer>
+      footer
+    </footer>
+    <% if content_for? :javascripts %>
+      <%= yield :javascripts %>
+    <% end %>
   </body>
 </html>
