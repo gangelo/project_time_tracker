@@ -27,5 +27,8 @@ module CovermymedsDevisePundit
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Load our validators for use in our models.
+    config.eager_load_paths << Rails.root.join('app/validators')
   end
 end
