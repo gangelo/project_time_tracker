@@ -3,10 +3,10 @@ https://github.com/plataformatec/devise#starting-with-rails
 https://learn.co/lessons/devise_pundit_readme
 
 https://codepen.io/venturads/post/rails-bootstrap-devise-scaffold-gems
-$ rbenv exec rails g bootstrap:layout admin -p
+$ rbenv exec rails g bootstrap:layout admin -p # =>
 Running via Spring preloader in process 8196
       create  app/views/layouts/admin.html.erb
-      
+
 $ rbenv exec rails g bootstrap:themed user -p # =>
 Running via Spring preloader in process 97419
       create  app/views/user/index.html.erb
@@ -19,3 +19,51 @@ Running via Spring preloader in process 97419
 
 # Rails resources
 http://guides.rubyonrails.org/active_record_migrations.html
+
+# Rails destroy/generate scaffold
+$ rbenv exec rails destroy scaffold Post
+$ rbenv exec rails g scaffold Post -p  # =>
+Running via Spring preloader in process 8413
+      invoke  active_record
+      create    db/migrate/20180202105848_create_posts.rb
+      create    app/models/post.rb
+      invoke    rspec
+      create      spec/models/post_spec.rb
+      invoke      factory_bot
+      create        spec/factories/posts.rb
+      invoke  resource_route
+       route    resources :posts
+      invoke  scaffold_controller
+      create    app/controllers/posts_controller.rb
+      invoke    erb
+      create      app/views/posts
+      create      app/views/posts/index.html.erb
+      create      app/views/posts/edit.html.erb
+      create      app/views/posts/show.html.erb
+      create      app/views/posts/new.html.erb
+      create      app/views/posts/_form.html.erb
+      invoke    rspec
+      create      spec/controllers/posts_controller_spec.rb
+      create      spec/views/posts/edit.html.erb_spec.rb
+      create      spec/views/posts/index.html.erb_spec.rb
+      create      spec/views/posts/new.html.erb_spec.rb
+      create      spec/views/posts/show.html.erb_spec.rb
+      create      spec/routing/posts_routing_spec.rb
+      invoke      rspec
+      create        spec/requests/posts_spec.rb
+      invoke    helper
+      create      app/helpers/posts_helper.rb
+      invoke      rspec
+      create        spec/helpers/posts_helper_spec.rb
+      invoke    jbuilder
+      create      app/views/posts
+      create      app/views/posts/index.json.jbuilder
+      create      app/views/posts/show.json.jbuilder
+      create      app/views/posts/_post.json.jbuilder
+      invoke  assets
+      invoke    js
+      create      app/assets/javascripts/posts.js
+      invoke    scss
+      create      app/assets/stylesheets/posts.scss
+      invoke  scss
+      create    app/assets/stylesheets/scaffolds.scss
