@@ -265,7 +265,7 @@ Devise.setup do |config|
     # Redirect to the root_path in the event of a login failure. This change
     # is IAW changes made to the /lib/devise_custom_failure.rb and
     # /config/application.rb files.
-    manager.failure_app = DeviseCustomFailure
+    # manager.failure_app = DeviseCustomFailure
   end
 
   # ==> Mountable engine configurations

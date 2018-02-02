@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class Users::ConfirmationsController < Devise::ConfirmationsController
+  layout "users/default"
   # GET /resource/confirmation/new
-  # def new
-  #   super
-  # end
+  def new
+    super
+  end
 
   # POST /resource/confirmation
   # def create
@@ -12,9 +13,9 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   # end
 
   # GET /resource/confirmation?confirmation_token=abcdef
-  # def show
-  #   super
-  # end
+  def show
+    super
+  end
 
   # protected
 
@@ -24,7 +25,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   # end
 
   # The path used after confirmation.
-  # def after_confirmation_path_for(resource_name, resource)
-  #   super(resource_name, resource)
-  # end
+  #def after_confirmation_path_for(resource_name, resource)
+  #  super(resource_name, resource)
+  #end
 end

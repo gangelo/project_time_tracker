@@ -1,0 +1,37 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Sign up</h3>
+  </div>
+  <div class="panel-body">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= devise_error_messages! %>
+      <div class="form-group">
+        <div class='input-md'><%= f.label :email %></div>
+        <div class='input-md'><%= f.email_field :email, class: "form-control", autofocus: true, autocomplete: "email" %></div>
+      </div>
+
+      <div class="form-group">
+        <div class='input-md'><%= f.label :password %></div>
+        <div class='input-md'><%= f.password_field :password, class: "form-control", autocomplete: "off" %></div>
+        <div>
+          <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class='input-md'><%= f.label :password_confirmation %></div>
+        <div class='input-md'><%= f.password_field :password_confirmation, class: "form-control", autocomplete: "off" %></div>
+      </div>
+
+      <div class='actions form-group'>
+        <div class='input-md'><%= submit_tag 'Sign up', class: 'btn btn-default btn-special dark' %></div>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
