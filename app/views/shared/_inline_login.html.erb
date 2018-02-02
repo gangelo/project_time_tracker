@@ -1,0 +1,33 @@
+<%= form_with(scope: :user, url: user_session_path, local: true,
+                    :builder => InlineErrorsBuilder) do |f| %>
+  <div class='row'>
+    <div class='col-md-5'>
+      <%= f.email_field :email, class: 'form-control', placeholder: 'Email' %>
+    </div>
+
+    <div class='col-md-5'>
+      <%= f.password_field :password, class: 'form-control', placeholder: 'Password' %>
+    </div>
+
+    <div class='col-md-2 actions'>
+      <%= submit_tag 'Log in', class: 'btn btn-default btn-special dark' %>
+    </div>
+  </div>
+
+  <div class='row'>
+    <div class='col-md-5'>
+      <%= label_tag :remember_me, class: 'checkbox pull-right nowrap' do %>
+        <%= check_box_tag :remember_me, params[:remember_me], false %>
+        Keep me logged in
+      <% end %>
+    </div>
+
+    <div class='col-md-5'>
+      <%= link_to '#', class: 'underline pull-right nowrap' do %>
+         Forgot your password?
+      <% end %>
+    </div>
+
+    <div class='col-md-2'>&nbsp;</div>
+  </div>
+<% end %>

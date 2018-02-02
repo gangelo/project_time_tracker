@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "CoverMyMeds.com" %></title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%#= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
+    <% if content_for? :head %>
+      <%= yield :head %>
+    <% end %>
+  </head>
+  <body>
+
+    <div class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">CoverMyMeds.com</a>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+          <%= bootstrap_flash %>
+          <%= yield %>
+        </div>
+        <div class="col-lg-4"></div>
+      </div> <!--/row-->
+    </div> <!-- /container -->
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+          <%= render "shared/footer" %>
+        </div>
+        <div class="col-lg-4"></div>
+      </div> <!--/row-->
+    </div> <!-- /container -->
+
+    <% if content_for? :javascripts %>
+      <%= yield :javascripts %>
+    <% end %>
+  </body>
+</html>

@@ -30,5 +30,10 @@ module CovermymedsDevisePundit
 
     # Load our validators for use in our models.
     config.eager_load_paths << Rails.root.join('app/validators')
+
+    # Redirect to the root_path in the event of a login failure. This change
+    # is IAW changes made to the /config/initializers/devise.rb and
+    # /lib/devise_custom_failure.rn files.
+    config.autoload_paths += %W(#{config.root}/lib)
   end
 end

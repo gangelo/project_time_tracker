@@ -29,9 +29,16 @@
             <li><%= link_to "Link2", "/path2"  %></li>
             <li><%= link_to "Link3", "/path3"  %></li>
           </ul>
+          <ul class="nav navbar-nav login-nav">
+            <li><%= link_to "Log in", new_user_session_path %></li>
+            <li><%= link_to "Sign up", new_user_registration_path %></li>
+            <li><%= link_to "Forgot your password?", "/path3" %></li>
+          </ul>
+          <%#
           <div id="inline-login-signup">
-            <%= render "shared/login" %>
+            <= render "shared/inline_login">
           </div>
+          %>
         </div>
       </div>
     </div>
@@ -55,9 +62,7 @@
         </div><!--/span-->
       </div><!--/row-->
 
-      <footer>
-        <p>&copy; Company 2018</p>
-      </footer>
+      <%= render "shared/footer" %>
 
     </div> <!-- /container -->
 
