@@ -29,8 +29,8 @@
 // @link-color: #ff0000;
 
 @golden-ratio: 1.618;
-@default-orange: #f90;
-@default-orange-dark: #b45f06;
+@default-app-highlight: #ccc;
+@default-app-highlight-dark: #ddd;
 @edit-color: #5CB85C;
 @delete-color: #D9534F;
 @view-color: #428BCA;
@@ -40,9 +40,13 @@ header, main, footer {
   &:extend(.container);
 }
 
-//#inline-login-signup {
-//  &:extend(.navbar-nav > li > a);
-//}
+.btn-warning,
+.btn-special,
+a.btn-special {
+  color: #ffffff;
+  background-color: #dedede;
+  border-color: #ccc;
+}
 
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
@@ -96,26 +100,30 @@ header, main, footer {
   }
 }
 
+.modal>.modal-dialog>.modal-content>.modal-body {
+  font-size: 18px;
+}
+
 .modal>.modal-dialog>.modal-content>.modal-header {
   &.default {
     color: #333;
     background-color: #eee;
     border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
+    border-top-right-radius: 6px;
   }
 
-  &.orange {
+  &.app-highlight {
     color: #333;
-    background-color: @default-orange;
+    background-color: @default-app-highlight;
     border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
+    border-top-right-radius: 6px;
   }
 }
 
 // Skill buttons
 .btn-special {
   &:extend(.btn-warning);
-  background-color: @default-orange;
+  background-color: @default-app-highlight;
 
   &.dark {
     color: #333;
@@ -126,12 +134,15 @@ header, main, footer {
   &.transparent {
     background-color: transparent !important;
     border: 0 !important;
-    //color: inherit;
   }
 }
 
 .btn-delete {
   color: @delete-color !important;
+}
+
+.btn-logout {
+  padding-top: 0px;
 }
 
 .btn-edit {
@@ -191,7 +202,7 @@ a.btn-cancel {
   z-index: 2;
   color: #333;
   font-weight: bold;
-  background-color: @default-orange;
+  background-color: @default-app-highlight;
   border-color: #ddd;
   cursor: default;
   .border-radius(5px);
@@ -211,7 +222,7 @@ a.btn-cancel {
 }
 
 .pagination > .previous_page > a > i.fa, .pagination > .next_page > a > i.fa {
-  color: @default-orange;
+  color: @default-app-highlight;
 }
 
 .pageer-center {

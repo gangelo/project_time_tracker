@@ -31,7 +31,19 @@
           </ul>
           <ul class="nav navbar-nav login-nav">
             <% if current_user? %>
-              <li><%= link_to "Log out", destroy_user_session_path %></li>
+              <li>
+                <%= button_to destroy_user_session_path, {
+                    method: :delete,
+                    class: 'btn btn-logout transparent',
+                    style: 'padding-left:0px; padding-right:0px;',
+                    title: 'Log out',
+                    data: {
+                      post_title: "Log out?" },
+                      form: { style: 'display:inline-block;' }
+                    } do %>
+                    <div style="margin-top: 15px;">Log out</div>
+                <% end %>
+              </li>
               <li><%= link_to "Profile", "/profile_path" %></li>
             <% else %>
               <li><%= link_to "Log in", new_user_session_path %></li>
@@ -64,6 +76,10 @@
       <%= render "shared/footer" %>
 
     </div> <!-- /container -->
+
+    <%= render partial: 'shared/modal_dialog' %>
+
+    <%= javascript_include_tag 'modal-dialog-center' %>
 
     <% if content_for? :javascripts %>
       <%= yield :javascripts %>

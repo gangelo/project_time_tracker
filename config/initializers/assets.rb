@@ -16,4 +16,5 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # Precompile assets
 Rails.application.config.assets.precompile += %w(
   home.css home.js
+  modal-dialog-center.js
 )
