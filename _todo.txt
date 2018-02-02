@@ -1,7 +1,3 @@
-# Devise/Pundit
-https://github.com/plataformatec/devise#starting-with-rails
-https://learn.co/lessons/devise_pundit_readme
-
 $ rails g devise:install # =>
 ===============================================================================
 
@@ -31,15 +27,3 @@ Some setup you must do manually if you haven't yet:
        rails g devise:views
 
 ===============================================================================
-
-https://codepen.io/venturads/post/rails-bootstrap-devise-scaffold-gems
-rbenv exec rails g bootstrap:themed user -p # =>
-Running via Spring preloader in process 97419
-      create  app/views/user/index.html.erb
-      create  app/views/user/new.html.erb
-      create  app/views/user/edit.html.erb
-      create  app/views/user/_form.html.erb
-      create  app/views/user/show.html.erb
-
-# Rails resources
-http://guides.rubyonrails.org/active_record_migrations.html
