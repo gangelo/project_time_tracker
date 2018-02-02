@@ -1,3 +1,4 @@
+# Devise/Pundit
 https://github.com/plataformatec/devise#starting-with-rails
 https://learn.co/lessons/devise_pundit_readme
 
@@ -39,3 +40,6 @@ Running via Spring preloader in process 97419
       create  app/views/user/edit.html.erb
       create  app/views/user/_form.html.erb
       create  app/views/user/show.html.erb
+
+# Rails resources
+http://guides.rubyonrails.org/active_record_migrations.html
