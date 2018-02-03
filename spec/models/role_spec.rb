@@ -8,6 +8,12 @@ RSpec.describe Role, type: :model do
     end
   end
 
+  context "model associations" do
+    describe "users" do
+      it { should have_many(:users).through(:user_roles) }
+    end
+  end
+
   context "validations" do
     describe "#name" do
       it { should validate_presence_of(:name).with_message(/is required/) }

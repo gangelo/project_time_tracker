@@ -1,10 +1,35 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  let(:user_role) { Role.create!(name: 'user') }
+  let(:admin_role) { Role.create!(name: 'admin') }
+
+  context "test roles" do
+    describe "user" do
+      it "should be valid" do
+        expect(user_role).to_not be(nil)
+        expect(user_role.valid?).to be(true)
+      end
+    end
+
+    describe "admin" do
+      it "should be valid" do
+        expect(admin_role).to_not be(nil)
+        expect(admin_role.valid?).to be(true)
+      end
+    end
+  end
+
   context "factories" do
     describe "#user" do
       subject { FactoryBot.build(:user) }
       it { should be_valid }
+    end
+  end
+
+  context "model associations" do
+    describe "roles" do
+      it { should have_many(:roles).through(:user_roles) }
     end
   end
 
@@ -51,4 +76,66 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  context "role members" do
+    describe "#role?" do
+      it { should respond_to(:role?).with(1).argument }
+
+      it "should return true if the user is in the specified role" do
+        user = User.create(email: "user@gmail.com", password: "password")
+        user.roles << user_role
+        user.roles << admin_role
+        user.save!
+        expect(user.role?(:user)).to be(true)
+        expect(user.role?(:admin)).to be(true)
+        expect(user.role?("user")).to be(true)
+        expect(user.role?("admin")).to be(true)
+      end
+
+      it "should return false if the user is NOT in the specified role" do
+        user = User.create(email: "user@gmail.com", password: "password")
+        user.save!
+        expect(user.role?(:user)).to be(false)
+        expect(user.role?(:admin)).to be(false)
+        expect(user.role?("user")).to be(false)
+        expect(user.role?("admin")).to be(false)
+      end
+
+      describe "#user?" do
+        it { should respond_to(:admin?).with(0).argument }
+
+        it "should return true if the user is in the user role" do
+          user = User.create(email: "user@gmail.com", password: "password")
+          user.roles << user_role
+          user.save!
+          expect(user.user?).to be(true)
+        end
+
+        it "should return false if the user is NOT in the user role" do
+          user = User.create(email: "user@gmail.com", password: "password")
+          user.save!
+          expect(user.user?).to be(false)
+        end
+      end
+
+      describe "#admin?" do
+        it { should respond_to(:admin?).with(0).argument }
+
+        it "should return true if the user is in the admin role" do
+          user = User.create(email: "user@gmail.com", password: "password")
+          user.roles << admin_role
+          user.save!
+          expect(user.admin?).to be(true)
+        end
+
+        it "should return false if the user is NOT in the admin role" do
+          user = User.create(email: "user@gmail.com", password: "password")
+          user.save!
+          expect(user.admin?).to be(false)
+        end
+      end
+
+    end
+  end # role members
+
 end

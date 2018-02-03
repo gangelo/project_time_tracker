@@ -56,27 +56,12 @@
     </div>
 
     <div class="container">
-      <div class="row">
-        <div class="col-lg-9">
-          <%= bootstrap_flash %>
-          <%= yield %>
-        </div>
-        <div class="col-lg-3">
-          <div class="well sidebar-nav">
-            <h3>Administration</h3>
-            <ul class="nav nav-list">
-              <li class="nav-header">Users</li>
-              <li><%= link_to "List", users_path  %></li>
-              <li><%= link_to "Search", "/path1"  %></li>
-              <li><%= link_to "Manage", "/path2"  %></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-      </div><!--/row-->
+      <%= render partial: "shared/right_navigation" %>
+    </div>
 
-      <%= render "shared/footer" %>
-
-    </div> <!-- /container -->
+    <div class="container">
+      <%= render partial: "shared/footer" %>
+    </div>
 
     <%= render partial: 'shared/modal_dialog' %>
 
