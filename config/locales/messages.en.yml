@@ -1,0 +1,4 @@
+en:
+  errors:
+    messages:
+      generic: "An error was encountered"

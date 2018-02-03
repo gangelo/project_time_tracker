@@ -1,4 +1,4 @@
-<%= render partial: 'shared/errors', locals: { model: @user } %>
+<%= render partial: 'shared/errors', locals: { resource: @user, i18n_key: 'errors.messages.not_saved', i18n_args: nil } %>
 
 <%= form_with(model: @user, local: true) do |f| %>
 <%#= form_for(@user, url: user_path, builder: InlineErrorsBuilder, method: :PATCH, role: :form) do |f| %>

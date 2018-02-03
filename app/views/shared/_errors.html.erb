@@ -1,14 +1,4 @@
-<% if model.errors.any? %>
-  <div id="error_expl" class="panel panel-danger">
-    <div class="panel-heading">
-      <h3 class="panel-title">The <%= model.class.name %> could not be saved.</h3>
-    </div>
-    <div class="panel-body">
-      <ul>
-      <% model.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  </div>
+<% if resource.errors.any? %>
+  <%= ResourceMessageBuilder.build_html_errors(resource, 'errors.messages.not_saved',
+       resource: resource.class.model_name.human.downcase) %>
 <% end %>
