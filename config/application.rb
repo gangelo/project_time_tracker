@@ -37,6 +37,6 @@ module CovermymedsDevisePundit
     # Handle errors a better way.
     # This configures a Rack app to be called when an error that we haven't
     # handled is produced.
-    config.exception_app = self.routes
+    config.exceptions_app = self.routes
   end
 end

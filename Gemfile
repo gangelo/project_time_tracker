@@ -68,5 +68,6 @@ gem 'twitter-bootstrap-rails', '~> 4.0'
 gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
 gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.2'
 
+gem 'figaro', '~> 1.1', '>= 1.1.1'
 gem 'pundit', '~> 1.1'
 gem 'devise', '~> 4.4', '>= 4.4.1'
