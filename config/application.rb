@@ -33,5 +33,10 @@ module CovermymedsDevisePundit
 
     # Load all the code in our lib.
     config.autoload_paths += %W(#{config.root}/lib)
+
+    # Handle errors a better way.
+    # This configures a Rack app to be called when an error that we haven't
+    # handled is produced.
+    config.exception_app = self.routes
   end
 end

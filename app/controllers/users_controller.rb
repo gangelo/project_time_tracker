@@ -4,22 +4,27 @@ class UsersController < ApplicationController
 
   def index
     @users = User.order(:email)
+    authorize(:user)
   end
 
   def show
     @user = User.find(params[:id])
+    authorize(@user)
   end
 
   def new
     @user = User.new
+    authorize(@user)
   end
 
   def edit
     @user = User.find(params[:id])
+    authorize(@user)
   end
 
   def update
     @user = User.find(params[:id])
+    authorize(@user)
     @user.update(user_params)
     if @user.save
       redirect_to users_path

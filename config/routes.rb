@@ -11,15 +11,12 @@ Rails.application.routes.draw do
     }
   end
 
-=begin
-    get 'users/index'
-    get 'users/new'
-    get 'users/edit'
-    get 'users/show'
-    get 'home/index'
-=end
+  resources :users
 
-    resources :users
+  match '/401' => 'errors#unauthorized', via: :all
+  match '/404' => 'errors#not_found', via: :all
+  match '/406' => 'errors#not_acceptable', via: :all
+  match '/500' => 'errors#internal_server_error', via: :all
 
   root 'home#index'
 end
