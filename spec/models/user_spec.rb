@@ -1,25 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user_role) { Role.create!(name: 'user') }
-  let(:admin_role) { Role.create!(name: 'admin') }
-
-  context "test roles" do
-    describe "user" do
-      it "should be valid" do
-        expect(user_role).to_not be(nil)
-        expect(user_role.valid?).to be(true)
-      end
-    end
-
-    describe "admin" do
-      it "should be valid" do
-        expect(admin_role).to_not be(nil)
-        expect(admin_role.valid?).to be(true)
-      end
-    end
-  end
-
   context "factories" do
     describe "#user" do
       subject { FactoryBot.build(:user) }
@@ -71,7 +52,7 @@ RSpec.describe User, type: :model do
          non_unique_user = User.create(user_name: "user_1", email: "user_2@gmail.com", password: "password")
          expect(non_unique_user).not_to be_valid
          # Case insensitive
-         non_unique_user = User.create(user_name: "uSeR_1", email: "user_2@gmail.com", password: "password")
+         non_unique_user = User.create(user_name: "uSeR_1", email: "user_3@gmail.com", password: "password")
          expect(non_unique_user).not_to be_valid
       end
     end

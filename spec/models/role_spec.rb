@@ -17,7 +17,7 @@ RSpec.describe Role, type: :model do
   context "validations" do
     describe "#name" do
       it { should validate_presence_of(:name).with_message(/is required/) }
-      it { should allow_value("user").for(:name) }
+      it { should allow_value("unique_role_name").for(:name) }
 
       it "should validate the uniqueness of case-insensitive" do
         Role.create(name: 'user')
