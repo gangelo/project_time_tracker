@@ -7,8 +7,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    # TODO: Implement this when referral_code is added to the User model.
-    # devise_parameter_sanitizer.for(:sign_up) << :referral_code
+    # TODO: Implement this in derived controllers to configure permitted
+    # parameters before any actions take place.
   end
 
   def after_sign_in_path_for(resource)
