@@ -7,7 +7,7 @@ class User < ApplicationRecord
   validates :email, email: true
   validates :user_name, user_name: true
 
-  has_many :user_roles
+  has_many :user_roles, dependent: :delete_all
   has_many :roles, through: :user_roles
 
   # Is the user in the user role?
