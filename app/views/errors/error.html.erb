@@ -1,0 +1,3 @@
+<% content_for :title do %>Error<% end %>
+<h1><%= @error.http_status %> - <%= @error.http_status_message %></h1>
+<% content_for :redirect_to do %><%= @error.redirect_to %><% end %>

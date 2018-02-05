@@ -13,8 +13,8 @@
       <%= yield :head %>
     <% end %>
   </head>
-  <body>
 
+  <body>
     <div class="navbar navbar-default navbar-static-top">
       <div class="container">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
@@ -54,12 +54,16 @@
     </div>
 
     <div class="container">
-      <%= render partial: "shared/right_navigation" %>
-    </div>
+      <div class="row">
+        <div class="<%= resource.admin? ? 'col-lg-9' : 'col-lg-12' %>">
+          <%= bootstrap_flash %>
+          <%= yield %>
+        </div>
+        <%= render partial: "shared/administrator_menu" if resource.admin? %>
+      </div><!--/row-->
+    </div><!--/container-->
 
-    <div class="container">
-      <%= render partial: "shared/footer" %>
-    </div>
+    <%= render partial: "shared/footer" %>
 
     <%= render partial: 'shared/modal_dialog' %>
 

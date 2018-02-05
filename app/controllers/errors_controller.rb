@@ -1,33 +1,41 @@
 class ErrorsController < ApplicationController
   def unauthorized
-    logger_entry = format_logger_entry(:unauthorized)
-    Rails.logger.info(logger_entry)
+    helpers.log_error(:unauthorized)
+    @error = HttpError.new(:unauthorized, 401, titleize_error(:unauthorized),
+                           helpers.error_redirect_to)
+    render action: :error
   end
 
   def not_found
-    logger_entry = format_logger_entry(:not_found)
-    Rails.logger.info(logger_entry)
+    helpers.log_error(:not_found)
+    @error = HttpError.new(:not_found, 404, titleize_error(:not_found),
+                            helpers.error_redirect_to)
+    render action: :error
   end
 
   def not_acceptable
-    logger_entry = format_logger_entry(:not_acceptable)
-    Rails.logger.info(logger_entry)
+    helpers.log_error(:not_acceptable)
+    @error = HttpError.new(:not_acceptable, 406,
+                           titleize_error(:not_acceptable),
+                           helpers.error_redirect_to)
+    render action: :error
   end
 
   def internal_server_error
-    logger_entry = format_logger_entry(:internal_server_error)
-    Rails.logger.info(logger_entry)
+    helpers.log_error(:internal_server_error)
+    @error = HttpError.new(:internal_server_error, 500,
+                           titleize_error(:internal_server_error),
+                           helpers.error_redirect_to)
+    render action: :error
   end
 
-  private
+  protected
 
-  def format_logger_entry(error)
-    original_url = request.original_url
-    remote_ip = request.remote_ip
-    request_method = request.request_method
-    server_software = request.server_software
+  def error
+    render template: 'errors'
+  end
 
-    { error: error, request_method: request_method, original_url: original_url,
-      remote_ip: remote_ip, server_software: server_software }
+  def titleize_error(http_status_code_symbol)
+    http_status_code_symbol.to_s.titleize
   end
 end

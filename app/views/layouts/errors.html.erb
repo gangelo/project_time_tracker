@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "CoverMyMeds.com" %></title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%#= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
+    <% if content_for? :head %>
+      <%= yield :head %>
+    <% end %>
+  </head>
+  <body>
+
+    <main>
+      <div class="container">
+        <div class="jumbotron" style="margin-top: 50px;">
+          <h1>Whoops!</h1>
+          <%= yield %>
+          <p>An error occured.</p>
+          <p><a class="btn btn-primary btn-lg" href="<%= yield :redirect_to %>" role="button">OK</a></p>
+        </div>
+
+        <div class="container">
+          <%= render partial: "shared/footer" %>
+        </div>
+      </div>
+    </main>
+
+    <% if content_for? :javascripts %>
+      <%= yield :javascripts %>
+    <% end %>
+  </body>
+</html>

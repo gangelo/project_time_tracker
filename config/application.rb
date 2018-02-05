@@ -38,5 +38,11 @@ module CovermymedsDevisePundit
     # This configures a Rack app to be called when an error that we haven't
     # handled is produced.
     config.exceptions_app = self.routes
+
+    # Note: any errors not normally handled by rails need to be added here, and
+    # associated with the http error that should handle it. These ultimately
+    # will be routed to the ErrorsController through the rails routes.rb
+    # (see the above config.exceptions_app setting).
+    config.action_dispatch.rescue_responses["Pundit::NotAuthorizedError"] = :unauthorized
   end
 end
