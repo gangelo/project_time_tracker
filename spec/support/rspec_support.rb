@@ -9,16 +9,20 @@ module RSpecHelpers
       allow_any_instance_of(ApplicationController).to receive(:current_user?).and_return(User)
     end
 
-    def get_admin_user
-      User.find_by(email: 'admin@gmail.com')
+    def admin_user
+      User.admins.first
+    end
+
+    def non_admin_user
+      RUser.non_admins.first
     end
 
     def admin_role
-      Role.find_by(name: 'admin')
+      Role.admin
     end
 
     def user_role
-      Role.find_by(name: 'user')
+      Role.user
     end
   end
 end

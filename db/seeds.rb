@@ -12,8 +12,8 @@
 
 # Roles
 def create_roles
-  @admin_role = Role.create!(name: 'admin') if @admin_role.nil?
-  @user_role = Role.create!(name: 'user') if @user_role.nil?
+  @admin_role = Role.create!(name: Role::ADMIN_ROLE_NAME) if @admin_role.nil?
+  @user_role = Role.create!(name: Role::USER_ROLE_NAME) if @user_role.nil?
 end
 
 # Admin

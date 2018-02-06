@@ -36,7 +36,7 @@ class UserPolicy < ApplicationPolicy
     default_policy
   end
 
-  private
+  protected
 
   def default_policy
     return false if user.nil?

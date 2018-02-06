@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include RoleNames
+
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
   devise :confirmable, :database_authenticatable, :registerable,
@@ -9,6 +11,10 @@ class User < ApplicationRecord
 
   has_many :user_roles, dependent: :delete_all
   has_many :roles, through: :user_roles
+
+  scope :admins, -> { joins(:roles).where("roles.name = '#{ADMIN_ROLE_NAME}'") }
+  scope :non_admins, -> {
+    where.not(id: User.joins(:roles).select(:id).where("roles.name = '#{ADMIN_ROLE_NAME}'")) }
 
   # Is the user in the user role?
   def user?

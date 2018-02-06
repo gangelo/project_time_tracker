@@ -13,10 +13,10 @@ Rails.application.routes.draw do
 
   resources :users
 
-  match '/401' => 'errors#unauthorized', via: :all
-  match '/404' => 'errors#not_found', via: :all
-  match '/406' => 'errors#not_acceptable', via: :all
-  match '/500' => 'errors#internal_server_error', via: :all
+  match '/401' => 'errors#unauthorized', via: :all, as: :unauthorized_error
+  match '/404' => 'errors#not_found', via: :all, as: :not_found_error
+  match '/406' => 'errors#not_acceptable', via: :all, as: :not_acceptable_error
+  match '/500' => 'errors#internal_server_error', via: :all, as: :internal_server_error
 
   root 'home#index'
 end
