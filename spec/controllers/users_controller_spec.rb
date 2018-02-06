@@ -1,22 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-  before do
-    # Change the access modifier on all protected members to public so we can
-    # test or use them.
-    #UserPolicy.send(:public, *UserPolicy.protected_instance_methods)
-
-    #allow_any_instance_of(UserPolicy).to
-    #  receive(:default_policy).and_return(true)
-  end
-
   before(:each) do
     @admin_user = admin_user
     sign_in @admin_user
-  end
-
-  after(:all) do
-    #sign_out @admin_user
   end
 
   describe "@admin_user" do
@@ -44,23 +31,53 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "GET #new" do
-    it "returns http success" do
+    it "should raise an Pundit::NotAuthorizedError error if the user is not authorized" do
+      sign_out @admin_user
+      expect { get :new }.to raise_error(Pundit::NotAuthorizedError)
+    end
+
+    it "should return :success for admin users" do
       get :new
-      expect(response).to have_http_status(:success)
+      expect(response).to be_successful
     end
   end
 
   describe "GET #edit" do
-    it "returns http success" do
-      get :edit
-      expect(response).to have_http_status(:success)
+    it "should raise an Pundit::NotAuthorizedError error if the user is not authorized" do
+      sign_out @admin_user
+      expect { get :edit, params: non_admin_user.attributes }.to raise_error(Pundit::NotAuthorizedError)
+    end
+
+    it "should return :success for admin users" do
+      get :edit, params: non_admin_user.attributes
+      expect(response).to be_successful
     end
   end
 
   describe "GET #show" do
-    it "returns http success" do
-      get :show
-      expect(response).to have_http_status(:success)
+    it "should raise an Pundit::NotAuthorizedError error if the user is not authorized" do
+      sign_out @admin_user
+      expect { get :show, params: { id: non_admin_user.id } }.to raise_error(Pundit::NotAuthorizedError)
+    end
+
+    it "should return :success for admin users" do
+      get :show, params: { id: non_admin_user.id }
+      expect(response).to be_successful
+    end
+  end
+
+  describe "PATCH #update" do
+    it "should raise an Pundit::NotAuthorizedError error if the user is not authorized" do
+      sign_out @admin_user
+      expect { put :update, params: { id: non_admin_user.id, user: {
+        user_name: 'user_name' } }
+      }.to raise_error(Pundit::NotAuthorizedError)
+    end
+
+    it "should return :success for admin users" do
+      put :update, params: { id: non_admin_user.id, user: {
+        user_name: 'user_name' } }
+      expect(response).to redirect_to(users_path)
     end
   end
 

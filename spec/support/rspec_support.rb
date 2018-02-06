@@ -14,7 +14,7 @@ module RSpecHelpers
     end
 
     def non_admin_user
-      RUser.non_admins.first
+      User.non_admins.first
     end
 
     def admin_role

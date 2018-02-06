@@ -20,7 +20,7 @@ class UserPolicy < ApplicationPolicy
     default_policy
   end
 
-  def show
+  def show?
     default_policy
   end
 
