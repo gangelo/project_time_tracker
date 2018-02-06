@@ -35,8 +35,10 @@ module ApplicationHelper
     raise ArgumentError if log_info.blank?
     raise ArgumentError unless log_info.is_a?(Hash)
     log_entry = { date_time: DateTime.now.strftime,
-      request_method: request.request_method, original_url: request.original_url,
-      remote_ip: request.remote_ip, server_software: request.server_software }
+                  request_method: request.request_method,
+                  original_url: request.original_url,
+                  remote_ip: request.remote_ip,
+                  server_software: request.server_software }
     log_entry.merge(log_info)
   end
 end
