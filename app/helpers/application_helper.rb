@@ -14,20 +14,10 @@ module ApplicationHelper
     request.referrer || root_path
   end
 
-  def log_information(information)
-    log_entry = create_log_entry({ information: information })
-    yield log_entry if block_given?
-    write_log_entry(log_entry, "information")
-  end
-
-  def log_warning(warning)
-    log_entry = create_log_entry({ warning: warning })
-    yield log_entry if block_given?
-    write_log_entry(log_entry, "warning")
-  end
-
-  def log_error(error)
-    log_entry = create_log_entry({ error: error })
+  def log_http_error(http_error)
+    raise ArgumentError if http_error.nil?
+    raise ArgumentError unless http_error.respond_to?(:attributes)
+    log_entry = create_log_entry(http_error.attributes)
     yield log_entry if block_given?
     write_log_entry(log_entry, "error")
   end
@@ -41,10 +31,12 @@ module ApplicationHelper
 
   private
 
-  def create_log_entry(info)
+  def create_log_entry(log_info)
+    raise ArgumentError if log_info.blank?
+    raise ArgumentError unless log_info.is_a?(Hash)
     log_entry = { date_time: DateTime.now.strftime,
       request_method: request.request_method, original_url: request.original_url,
       remote_ip: request.remote_ip, server_software: request.server_software }
-    log_entry.merge(info) unless info.blank? || !info.is_a?(Hash)
+    log_entry.merge(log_info)
   end
 end
