@@ -16,7 +16,9 @@ class SearchCriteria
   include ModelHelpers::Pagination
 
   after_initialize :action_after_initialize
-  after_validation :clear_search_string
+  # Uncomment this code if I want the search string to be reinitialized after
+  # every search.
+  # after_validation :clear_search_string
 
   DEFAULT_SEARCH_OPTION = 'email'.freeze
 

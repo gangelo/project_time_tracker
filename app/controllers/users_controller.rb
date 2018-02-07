@@ -13,10 +13,7 @@ class UsersController < ApplicationController
     authorize(:user)
     paginate_params = { page: params[:page].presence || 1, per_page: params[:per_page] }
     @search_criteria = SearchCriteria.new(search_params.merge(paginate_params), current_user)
-    @search_criteria.valid?
-    puts @search_criteria.search_string
-    puts @search_criteria.search_option
-#byebug
+    @search_criteria.users = User.none unless @search_criteria.valid?
     render :index
   end
 
