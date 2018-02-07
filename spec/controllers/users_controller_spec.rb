@@ -19,9 +19,8 @@ RSpec.describe UsersController, type: :controller do
   describe "GET #index" do
     it "should raise an Pundit::NotAuthorizedError error if the user is not authorized" do
       sign_out @admin_user
-      expect { get :index }.to raise_error(Pundit::NotAuthorizedError)
-      #expect(response).to be_unsuccessful
-      #expect(response).to redirect_to(unauthorized_error_path)
+      # expect { get :index }.to raise_error(Pundit::NotAuthorizedError)
+      expect(response).to redirect_to(new_user_session_path)
     end
 
     it "should return :success for admin users" do

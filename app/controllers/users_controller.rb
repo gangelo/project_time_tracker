@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
+  
   # A frequent practice is to place the standard CRUD actions in each controlle
   # in the following order: index, show, new, edit, create, update and destroy.
 

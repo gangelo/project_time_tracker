@@ -1,3 +1,5 @@
+*** Tidy up Controller actions, they are messy and have no error checking
+
 Add views for...
 
 Implement paging on Users list
