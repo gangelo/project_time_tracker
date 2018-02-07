@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   scope "(:locale)" do
+
     # Skip Devise controllers we override and want to handle ourselves.
     devise_for :users, skip: [:confirmations, :registrations, :sessions]
     Rails.application.routes.draw do
@@ -13,8 +14,17 @@ Rails.application.routes.draw do
       }
     end
 
+    # Users
     resources :users
 
+    # Users search
+    #get 'users_search/index'
+    #get 'users_search/search'
+
+    get '/search/users' => 'users_search#index', as: :search_users
+    post '/search/users' => 'users_search#search', as: :search_users_search
+
+    # Error handling routes
     match '/401' => 'errors#unauthorized', via: :all, as: :unauthorized_error
     match '/404' => 'errors#not_found', via: :all, as: :not_found_error
     match '/406' => 'errors#not_acceptable', via: :all, as: :not_acceptable_error

@@ -2,3 +2,4 @@ en:
   errors:
     messages:
       generic: "An error was encountered"
+      search_failed: "Yikes! It looks like you missed something!"
