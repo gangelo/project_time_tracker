@@ -1,12 +1,13 @@
 Add views for...
-Forgot your password?
-Didn't receive confirmation instructions?
-
-Add User Profile to hold name, etc.?
 
 Implement paging on Users list
 Implement search for Users by email, etc.
 Implement sorting for Users list
+
+Add User Profile to hold name, etc.?
+
+Forgot your password?
+Didn't receive confirmation instructions?
 
 $ rails g devise:install # =>
 
