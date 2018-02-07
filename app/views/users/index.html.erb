@@ -1,11 +1,9 @@
 <%- model_class = User -%>
 <div class="page-header">
   <h1><%= translate('.title',
-             default: model_class.model_name.human.pluralize.titleize) %></h1>
+            default: model_class.model_name.human.pluralize.titleize) %></h1>
 </div>
 
-<%= render partial: 'shared/users', locals: { users: @users } %>
+<%= render partial: 'shared/user_search' %>
 
-<%#= link_to t('.new', default: t("helpers.links.new")),
-               new_user_path,
-               :class => 'btn btn-primary' %>
+<%= render partial: 'shared/users', locals: { users: @search_criteria.users }%>

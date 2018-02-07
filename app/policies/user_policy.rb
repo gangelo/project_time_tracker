@@ -20,6 +20,10 @@ class UserPolicy < ApplicationPolicy
     default_policy
   end
 
+  def search?
+    default_policy
+  end
+
   def show?
     default_policy
   end

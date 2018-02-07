@@ -16,13 +16,7 @@ Rails.application.routes.draw do
 
     # Users
     resources :users
-
-    # Users search
-    #get 'users_search/index'
-    #get 'users_search/search'
-
-    get '/search/users' => 'users_search#index', as: :search_users
-    post '/search/users' => 'users_search#search', as: :search_users_search
+    post '/users/search' => 'users#search', as: :user_search
 
     # Error handling routes
     match '/401' => 'errors#unauthorized', via: :all, as: :unauthorized_error

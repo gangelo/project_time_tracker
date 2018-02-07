@@ -29,7 +29,7 @@ class SearchCriteria
 
   def initialize(attributes = {}, user = nil, search_option = DEFAULT_SEARCH_OPTION)
     raise ArgumentError if search_option.blank?
-    raise ArgumentError unless ['email', 'id', 'user_name'].include?(search_option)
+    raise ArgumentError unless ['email', 'user_name'].include?(search_option)
     @user = user
     @users = User.none
     @search_string = ""
@@ -49,14 +49,14 @@ class SearchCriteria
   protected
 
   def action_after_initialize
-    #@user_profiles = has_search_skills? ? UserProfile.find_by_skills_with_paginate(valid_search_skills, paginate_params, @user) : @user_profiles.paginate(paginate_params)
     #@users = User.where("users.:search_option LIKE :search_string",
     #                    search_option: "%#{sanitize_sql_like(search_option)}%",
-    #                    search_string: "%#{search_string}%")
+    #                    search_string: "%#{search_string}%") # <= Sanitize this!!!
 
     # Note: the below will not work for anything but text searches; if casting
     # is involved, we'll have to go with something non-database agnostic
     # (See above).
+    # !!!WARNING This needs to be sanitized WARNING!!!
     option = User.arel_table[search_option]
     @users = User.where(option.matches("%#{search_string}%"))
   end
