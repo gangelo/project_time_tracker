@@ -17,9 +17,10 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "GET #index" do
-    it "should raise an Pundit::NotAuthorizedError error if the user is not authorized" do
+    it "should redirect to sign in page if the user is not authorized" do
       sign_out @admin_user
       # expect { get :index }.to raise_error(Pundit::NotAuthorizedError)
+      get :index
       expect(response).to redirect_to(new_user_session_path)
     end
 
@@ -32,7 +33,9 @@ RSpec.describe UsersController, type: :controller do
   describe "GET #new" do
     it "should raise an Pundit::NotAuthorizedError error if the user is not authorized" do
       sign_out @admin_user
-      expect { get :new }.to raise_error(Pundit::NotAuthorizedError)
+      # expect { get :new }.to raise_error(Pundit::NotAuthorizedError)
+      get :new
+      expect(response).to redirect_to(new_user_session_path)
     end
 
     it "should return :success for admin users" do
@@ -44,7 +47,9 @@ RSpec.describe UsersController, type: :controller do
   describe "GET #edit" do
     it "should raise an Pundit::NotAuthorizedError error if the user is not authorized" do
       sign_out @admin_user
-      expect { get :edit, params: non_admin_user.attributes }.to raise_error(Pundit::NotAuthorizedError)
+      # expect { get :edit, params: non_admin_user.attributes }.to raise_error(Pundit::NotAuthorizedError)
+      get :edit, params: non_admin_user.attributes
+      expect(response).to redirect_to(new_user_session_path)
     end
 
     it "should return :success for admin users" do

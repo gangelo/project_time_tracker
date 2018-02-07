@@ -2,6 +2,10 @@
 
 ## TODO
 
+Change Devise confirmation email mailer wording when updating an email for a user that already exists. Currently, it uses the "Welcome" verbiage: /views/devise/mailers/confirmation_instructions.html.erb
+
+## For Later
+
 ### Internationalization/localization
 #### Guides
 * http://guides.rubyonrails.org/i18n.html

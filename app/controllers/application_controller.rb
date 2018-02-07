@@ -4,6 +4,12 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  # Set the default locale, in part, required for Devise
+  # http://www.rubydoc.info/github/plataformatec/devise/master/ActionDispatch/Routing/Mapper%3Adevise_for
+  def self.default_url_options
+    { locale: I18n.locale }
+  end
+
   protected
 
   def configure_permitted_parameters

@@ -2,4 +2,29 @@
 <div class="page-header">
   <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize %></h1>
 </div>
-<%= render partial: 'form' %>
+
+<%= render partial: 'shared/errors', locals: { resource: @user, i18n_key: 'errors.messages.not_saved', i18n_args: nil } %>
+
+<%= form_with(model: @user, local: true) do |f| %>
+<%
+=begin
+%>
+  <div class="form-group">
+    <div class='input-md'><%= f.label :user_name %></div>
+    <div class='input-md'><%= f.text_field :user_name, class: "form-control", autofocus: true, autocomplete: "off" %></div>
+  </div>
+<%
+=end
+%>
+  <div class="form-group">
+    <div class='input-md'><%= f.label :email %></div>
+    <div class='input-md'><%= f.email_field :email, class: "form-control", autocomplete: "email" %></div>
+  </div>
+
+  <div class='actions form-group'>
+    <div class='input-md'>
+      <%= submit_tag 'Update user', class: 'btn btn-primary' %>
+      <%= link_to 'Cancel', users_path, class: 'btn btn-default' %>
+    </div>
+  </div>
+<% end %>
