@@ -25,21 +25,21 @@ def create_admin
   admin.save!
 end
 
-# Users
 case Rails.env
 when 'development'
-  total_users = 150
+  @total_users = 150
 when 'test'
-  total_users = 10
+  @total_users = 10
 else
-  total_users = 0
+  @total_users = 0
 end
 
-if total_users > 0
+# Users
+if @total_users > 0
   ActiveRecord::Base.transaction do
     create_roles
     create_admin
-    (0...10).each do |i|
+    (0...@total_users).each do |i|
       user = User.new(email: "user#{i}@gmail.com", password: "password")
       user.roles << @user_role
       user.confirmed_at = DateTime.now
