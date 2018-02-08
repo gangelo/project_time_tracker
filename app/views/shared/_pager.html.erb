@@ -1,0 +1,7 @@
+<%
+#css_class = local_assigns.fetch(:css_class, '')
+%>
+
+<% if pager_data.any? %>
+<%= will_paginate pager_data, class: css_class, previous_label: '<i class="fa fa-2x fa-chevron-circle-left"></i>', next_label: '<i class="fa fa-2x fa-chevron-circle-right"></i>' %>
+<% end %>

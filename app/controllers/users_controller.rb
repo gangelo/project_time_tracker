@@ -5,8 +5,8 @@ class UsersController < ApplicationController
   # in the following order: index, show, new, edit, create, update and destroy.
 
   def index
-    @search_criteria = SearchCriteria.new
     authorize(:user)
+    @search_criteria = SearchCriteria.new
   end
 
   def search

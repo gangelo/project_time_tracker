@@ -2,6 +2,7 @@ $(function() {
   // Wires up click events for all dropdown search options.
   $("#search_options > li .search-item").each(function(index) {
     $(this).click(function(e) {
+      clearSearchString();
       setSearchOption(this);
     });
   });
@@ -27,6 +28,10 @@ $(function() {
   function setSearchPlaceholder($optionElement) {
     let placeholder = $optionElement.data("placeholder");
     $("#search_string").attr("placeholder", placeholder);
+  };
+
+  function clearSearchString() {
+    $("#search_string").val("");
   };
 
   function setHiddenSearchOptionId($optionElement) {

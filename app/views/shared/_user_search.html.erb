@@ -2,7 +2,7 @@
   <%= ResourceMessageBuilder.build_html_errors(@search_criteria, 'errors.messages.search_failed',
        resource: @search_criteria.class.model_name.human.downcase) %>
 <% end %>
-<%= form_with(model: @search_criteria, id: :search_criteria_form, url: user_search_path, local: true) do |f| %>
+<%= form_with(model: @search_criteria, id: :search_criteria_form, url: users_search_path, local: true) do |f| %>
   <div class="row">
     <div class="col-lg-12">
       <div class="input-group">
@@ -11,7 +11,7 @@
         <%= f.text_field :search_string, id: :search_string, placeholder: '', class: 'form-control' %>
 
         <div class="input-group-btn">
-          <button id="search_button" type="button" class="btn btn-primary">Search</button>
+          <button id="search_button" type="button" class="btn btn-primary"><i class='fa fa-search fa-md'>&nbsp;</i>Search</button>
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
@@ -19,6 +19,7 @@
           <ul id="search_options" class="dropdown-menu dropdown-menu-right">
             <li><a href="#">Search by...</a></li>
             <li role="separator" class="divider"></li>
+            <li><a id="show_all" class="search-item" data-placeholder="" href="#">Show all</a></li>
             <li><a id="email" class="search-item" data-placeholder="e.g. email@gmail.com" href="#">Email</a></li>
             <li><a id="user_name" class="search-item" data-placeholder="e.g. user_name" href="#">User name</a></li>
           </ul>

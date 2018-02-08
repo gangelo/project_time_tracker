@@ -1,22 +1,18 @@
 Rails.application.routes.draw do
-
   scope "(:locale)" do
+    # Users
+    post '/users/search' => 'users#search'
+    resources :users
 
     # Skip Devise controllers we override and want to handle ourselves.
     devise_for :users, skip: [:confirmations, :registrations, :sessions]
-    Rails.application.routes.draw do
-      devise_for :users, controllers: {
-        # Add routes for Devise controllers we override and want to handle
-        # ourselves here.
-        sessions: 'users/sessions',
-        registrations: 'users/registrations',
-        confirmations: 'users/confirmations'
-      }
-    end
-
-    # Users
-    resources :users
-    post '/users/search' => 'users#search', as: :user_search
+    devise_for :users, controllers: {
+      # Add routes for Devise controllers we override and want to handle
+      # ourselves here.
+      sessions: 'users/sessions',
+      registrations: 'users/registrations',
+      confirmations: 'users/confirmations'
+    }
 
     # Error handling routes
     match '/401' => 'errors#unauthorized', via: :all, as: :unauthorized_error
