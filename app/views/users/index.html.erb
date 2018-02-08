@@ -4,8 +4,6 @@
             default: model_class.model_name.human.pluralize.titleize) %></h1>
 </div>
 
-<%#= render partial: 'shared/user_search' %>
-
 <% if @search_criteria.errors.any? %>
   <%= ResourceMessageBuilder.build_html_errors(@search_criteria, 'errors.messages.search_failed',
        resource: @search_criteria.class.model_name.human.downcase) %>
@@ -37,13 +35,17 @@
   </div>
 
   <div class='row'>
-    <%= render partial: 'shared/pager', object: @search_criteria.users, as: :pager_data, locals: { css_class: 'col-lg-6 col-lg-offset-3 pager-center' } %>
+    <div class="col-lg-12">
+      <%= render partial: 'shared/pager', object: @search_criteria.users, as: :pager_data, locals: { css_class: 'col-lg-6 col-lg-offset-3 pager-center' } %>
+    </div>
   </div>
 
   <%= render partial: 'shared/users', locals: { users: @search_criteria.users }%>
 
   <div class='row'>
-    <%= render partial: 'shared/pager', object: @search_criteria.users, as: :pager_data, locals: { css_class: 'col-lg-6 col-lg-offset-3 pager-center' } %>
+    <div class="col-lg-12">
+      <%= render partial: 'shared/pager', object: @search_criteria.users, as: :pager_data, locals: { css_class: 'col-lg-6 col-lg-offset-3 pager-center' } %>
+    </div>
   </div>
 
 <% end %>
