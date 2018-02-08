@@ -5,7 +5,7 @@ $(function() {
 
   $(deleteButtonSelector).each(function() {
     $(this).click(function(event) {
-      event.preventDefault();
+      //event.preventDefault();
       showDeleteModal(this);
       return false;
     });
