@@ -5,24 +5,32 @@ $(function() {
       clearSearchString();
       setSearchOption(this);
       enableSearchString(this);
+      if (isSearchAll()) {
+        submitForm();
+      }
     });
   });
 
-  function enableSearchString(searchOptionDOMElement) {
-    $("#search_string").prop("disabled", isSearchAll(searchOptionDOMElement));
+  // Submits the form when the search button is clicked.
+  $("#search_button").click(function(e) {
+    submitForm();
+    e.preventDefault();
+  });
+
+  function submitForm() {
+    $("#search_criteria_form").submit();
   };
 
-  function isSearchAll(searchOptionDOMElement) {
-    let $optionElement = $(searchOptionDOMElement);
+  function isSearchAll() {
+    let optionId = $("#search_option").val();
+    let $optionElement = $(document.getElementById(optionId));
     let id = $optionElement.attr("id");
     return id == "show_all";
   };
 
-  // Submits the form when the search button is clicked.
-  $("#search_button").click(function(e) {
-    $("#search_criteria_form").submit();
-    e.preventDefault();
-  });
+  function enableSearchString(searchOptionDOMElement) {
+    $("#search_string").prop("disabled", isSearchAll());
+  };
 
   function setInitialSearchOption() {
     let optionId = $("#search_option").val();
