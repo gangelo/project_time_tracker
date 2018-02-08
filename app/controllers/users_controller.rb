@@ -6,13 +6,13 @@ class UsersController < ApplicationController
 
   def index
     authorize(:user)
-    @search_criteria = SearchCriteria.new
+    @search_criteria = UsersSearchCriteria.none
   end
 
   def search
     authorize(:user)
     paginate_params = { page: params[:page].presence || 1, per_page: params[:per_page] }
-    @search_criteria = SearchCriteria.new(search_params.merge(paginate_params), current_user)
+    @search_criteria = UsersSearchCriteria.new(search_params.merge(paginate_params))
     render :index
   end
 
@@ -51,13 +51,7 @@ class UsersController < ApplicationController
   end
 
   def search_params
-    #params[:search_criteria][:search_skills_attributes] ||= {}
-    #params.require(:search_criteria).permit(:search_string, search_skills_attributes: [:id, :skill_name, :skill_valid])
-
-    #params.require(:search_criteria).permit(:search_string, :search_option)
-
-    #params[:search_criteria][:search_skills_attributes] ||= {}
     puts params
-    params.require(:search_criteria).permit(:search_string, :search_option)
+    params.require(:users_search_criteria).permit(:search_string, :search_option)
   end
 end

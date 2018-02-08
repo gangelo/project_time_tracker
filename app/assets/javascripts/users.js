@@ -29,7 +29,8 @@ $(function() {
   };
 
   function enableSearchString(searchOptionDOMElement) {
-    $("#search_string").prop("disabled", isSearchAll());
+    //$("#search_string").prop("disabled", isSearchAll());
+    $("#search_string").prop("readonly", isSearchAll());
   };
 
   function setInitialSearchOption() {

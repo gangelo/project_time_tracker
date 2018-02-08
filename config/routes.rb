@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   scope "(:locale)" do
     # Users
+    # Search route must have :get and :post or will_paginate will
+    # not work properly.
     match '/users/search', to: 'users#search', via: [:get, :post]
     resources :users
 
