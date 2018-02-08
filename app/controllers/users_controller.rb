@@ -6,7 +6,6 @@ class UsersController < ApplicationController
 
   def index
     authorize(:user)
-    #@search_criteria = UsersSearchCriteria.none
     @search_criteria = UsersSearchCriteria.new
   end
 
@@ -18,8 +17,13 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
-    authorize(@user)
+    begin
+      @user = User.find(params[:id])
+      authorize(@user)
+    rescue ActiveRecord::RecordNotFound
+      # TODO: logging
+      redirect_to(users_path, notice: "The user could not be found.")
+    end
   end
 
   def new
@@ -28,18 +32,28 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
-    authorize(@user)
+    begin
+      @user = User.find(params[:id])
+      authorize(@user)
+    rescue ActiveRecord::RecordNotFound
+      # TODO: logging
+      redirect_to(users_path, notice: "The user could not be found. The user could not be edited.")
+    end
   end
 
   def update
-    @user = User.find(params[:id])
-    authorize(@user)
-    if @user.update(user_params)
-      notice = "The user's email has been updated, and a confirmation email has been sent."
-      redirect_to(users_path, notice: notice)
-    else
-      render :edit
+    begin
+      @user = User.find(params[:id])
+      authorize(@user)
+      if @user.update(user_params)
+        notice = "The user's email has been updated, and a confirmation email has been sent."
+        redirect_to(users_path, notice: notice)
+      else
+        render :edit
+      end
+    rescue ActiveRecord::RecordNotFound
+      # TODO: logging
+      redirect_to(users_path, notice: "The user could not be found. The update failed.")
     end
   end
 
@@ -52,8 +66,7 @@ class UsersController < ApplicationController
       return
     rescue ActiveRecord::RecordNotFound
       # TODO: logging
-      redirect_to(users_path, notice: "The user could not be deleted.")
-      return
+      redirect_to(users_path, notice: "The user could not be found. The delete failed.")
     end
   end
 
