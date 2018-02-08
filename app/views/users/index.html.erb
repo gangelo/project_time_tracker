@@ -10,7 +10,7 @@
   <%= ResourceMessageBuilder.build_html_errors(@search_criteria, 'errors.messages.search_failed',
        resource: @search_criteria.class.model_name.human.downcase) %>
 <% end %>
-<%= form_with(model: @search_criteria, id: :search_criteria_form, url: users_search_path, local: true) do |f| %>
+<%= form_with(model: @search_criteria, id: :search_criteria_form, url: users_search_path, method: :get, local: true) do |f| %>
   <div class="row">
     <div class="col-lg-12">
       <div class="input-group">
