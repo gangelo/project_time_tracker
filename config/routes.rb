@@ -1,20 +1,21 @@
 Rails.application.routes.draw do
   scope "(:locale)" do
-    # Users
-    # Search route must have :get and :post or will_paginate will
-    # not work properly.
-    match '/users/search', to: 'users#search', via: [:get, :post]
-    resources :users
-
     # Skip Devise controllers we override and want to handle ourselves.
-    devise_for :users, skip: [:confirmations, :registrations, :sessions]
+    devise_for :users, skip: [:confirmations, :registrations, :sessions, :passwords]
     devise_for :users, controllers: {
       # Add routes for Devise controllers we override and want to handle
       # ourselves here.
       sessions: 'users/sessions',
       registrations: 'users/registrations',
       confirmations: 'users/confirmations'
+      # passwords: 'users/passwords'
     }
+
+    # Users
+    # Search route must have :get and :post or will_paginate will
+    # not work properly.
+    match '/users/search', to: 'users#search', via: [:get, :post]
+    resources :users
 
     # Error handling routes
     match '/401', to: 'errors#unauthorized', via: :all, as: :unauthorized_error

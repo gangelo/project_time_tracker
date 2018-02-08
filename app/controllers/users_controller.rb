@@ -6,7 +6,8 @@ class UsersController < ApplicationController
 
   def index
     authorize(:user)
-    @search_criteria = UsersSearchCriteria.none
+    #@search_criteria = UsersSearchCriteria.none
+    @search_criteria = UsersSearchCriteria.new
   end
 
   def search
@@ -39,6 +40,20 @@ class UsersController < ApplicationController
       redirect_to(users_path, notice: notice)
     else
       render :edit
+    end
+  end
+
+  def destroy
+    begin
+      @user = User.find(params[:id])
+      authorize(@user)
+      @user.destroy
+      redirect_to users_path, notice: "User #{@user.email} has been deleted"
+      return
+    rescue ActiveRecord::RecordNotFound
+      # TODO: logging
+      redirect_to(users_path, notice: "The user could not be deleted.")
+      return
     end
   end
 

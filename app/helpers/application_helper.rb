@@ -22,6 +22,15 @@ module ApplicationHelper
     write_log_entry(log_entry, "error")
   end
 
+  def log_http_warning(http_warning)
+    raise ArgumentError if http_warning.blank?
+    http_warning = { warning: http_warning } unless http_warning.respond_to?(:attributes)
+    http_warning = http_warning.attributes if http_warning.respond_to?(:attributes)
+    log_entry = create_log_entry(http_error)
+    yield log_entry if block_given?
+    write_log_entry(log_entry, "warning")
+  end
+
   def write_log_entry(log_entry, delimiter)
     delimiter = delimiter.upcase
     delimiter_start = "$#{delimiter}_START"

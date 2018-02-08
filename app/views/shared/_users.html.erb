@@ -21,14 +21,20 @@
                         user_path(user), :class => 'btn btn-default btn-xs' %>
             <%= link_to t('.edit', default: t("helpers.links.edit")),
                         edit_user_path(user), :class => 'btn btn-default btn-xs' %>
-            <%= link_to t('.destroy', default: t("helpers.links.destroy")),
-                        user_path(user),
-                        method: :delete,
-                        data: { confirm: t('.confirm',
-                                default: t("helpers.links.confirm",
-                                default: 'Are you sure?'))
-                        },
-                        class: 'btn btn-xs btn-danger' %>
+            <% destroy_text = t('.destroy', default: t("helpers.links.destroy")) %>
+            <%= link_to user_path(user), {
+                  method: :delete,
+                  class: 'btn btn-xs btn-danger',
+                  style: 'padding: 6px 12px;',
+                  title: "#{destroy_text}",
+                  data: {
+                    dialog_title: "#{destroy_text} this user?",
+                    user_email: "#{user.email}"
+                  },
+                  form: { style: 'display:inline-block;' }
+                } do %>
+                <%= destroy_text %>
+            <% end %>
           </td>
         </tr>
       <% end %>

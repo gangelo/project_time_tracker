@@ -40,6 +40,10 @@ class UserPolicy < ApplicationPolicy
     default_policy
   end
 
+  def destroy?
+    default_policy
+  end
+
   protected
 
   def default_policy

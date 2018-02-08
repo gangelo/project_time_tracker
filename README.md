@@ -6,6 +6,12 @@ Sanitize search criteria for user search!
 
 Finish up Pundit policies
 
+Finish up specs
+
+Code to "showModalDialog" could be DRYed up; lots of common code there.
+
+Internationalize javascript text, for example, modal dialog text.
+
 Remove javascript alerts for delete options for users and replace with jquery modal dialog.
 
 Change Devise confirmation email mailer wording when updating an email for a user that already exists. Currently, it uses the "Welcome" verbiage: /views/devise/mailers/confirmation_instructions.html.erb
