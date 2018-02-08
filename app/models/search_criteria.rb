@@ -55,6 +55,7 @@ class SearchCriteria
   protected
 
   def action_after_initialize
+    return User.none unless valid?
     # !!!WARNING This needs to be sanitized WARNING!!!
 
     #@users = User.where("users.:search_option LIKE :search_string",

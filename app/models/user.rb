@@ -18,8 +18,7 @@ class User < ApplicationRecord
 
   def self.find_by_search_criteria_with_paginate(search_option, search_string, paginate_params = { page: nil, per_page: nil }, user = nil)
     users = find_by_search_criteria(search_option, search_string, user)
-    users.paginate(page: paginate_params[:page], per_page: paginate_params[:per_page])
-    users
+    users = users.paginate(page: paginate_params[:page], per_page: paginate_params[:per_page])
   end
 
   # !!!WARNING This needs to be sanitized WARNING!!!
