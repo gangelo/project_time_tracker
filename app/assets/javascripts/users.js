@@ -4,8 +4,19 @@ $(function() {
     $(this).click(function(e) {
       clearSearchString();
       setSearchOption(this);
+      enableSearchString(this);
     });
   });
+
+  function enableSearchString(searchOptionDOMElement) {
+    $("#search_string").prop("disabled", isSearchAll(searchOptionDOMElement));
+  };
+
+  function isSearchAll(searchOptionDOMElement) {
+    let $optionElement = $(searchOptionDOMElement);
+    let id = $optionElement.attr("id");
+    return id == "show_all";
+  };
 
   // Submits the form when the search button is clicked.
   $("#search_button").click(function(e) {
@@ -18,6 +29,14 @@ $(function() {
     let $optionElement = $("#" + optionId);
     setSearchLeftText($optionElement);
     setSearchPlaceholder($optionElement);
+    enableSearchString(document.getElementById(optionId));
+  };
+
+  function setSearchOption(searchOptionDOMElement) {
+    let $searchOptionElement = $(searchOptionDOMElement);
+    setSearchLeftText($searchOptionElement);
+    setSearchPlaceholder($searchOptionElement);
+    setHiddenSearchOptionId($searchOptionElement);
   };
 
   function setSearchLeftText($optionElement) {
@@ -37,13 +56,6 @@ $(function() {
   function setHiddenSearchOptionId($optionElement) {
     let id = $optionElement.attr("id");
     $("#search_option").val(id);
-  };
-
-  function setSearchOption(searchOptionDOMElement) {
-    let $searchOptionElement = $(searchOptionDOMElement);
-    setSearchLeftText($searchOptionElement);
-    setSearchPlaceholder($searchOptionElement);
-    setHiddenSearchOptionId($searchOptionElement);
   };
 
   setInitialSearchOption();
