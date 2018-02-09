@@ -3,3 +3,6 @@
 --require spec_helper
 
 --format documentation
+
+# Ignore view tests for now
+--exclude-pattern "**/views/*/*_spec.rb"
