@@ -18,7 +18,7 @@ end
 
 # Admin
 def create_admin
-  admin = User.new(email: "admin@gmail.com", name: "Admin", password: "password")
+  admin = User.new(email: "admin@gmail.com", user_name: "admin", password: "password")
   admin.confirmed_at = DateTime.now
   admin.roles << @user_role
   admin.roles << @admin_role
@@ -27,7 +27,7 @@ end
 
 case Rails.env
 when 'development'
-  @total_users = 150
+  @total_users = 25
 when 'test'
   @total_users = 10
 else
@@ -40,10 +40,25 @@ if @total_users > 0
     create_roles
     create_admin
     (0...@total_users).each do |i|
-      user = User.new(email: "user#{i}@gmail.com", name: "User Name #{i}", password: "password")
+      user = User.new(email: "user#{i}@gmail.com", user_name: "user_name#{i}", password: "password")
       user.roles << @user_role
       user.confirmed_at = DateTime.now
       user.save!
     end
   end
 end
+
+# Company
+company = Company.create!(name: "CoverMyMeds")
+
+# Add project to company
+#byebug
+company.projects << Project.create!(name: "Time Tracker", company: company)
+company.save!
+#byebug
+
+time_tracker_project = Project.first
+time_tracker_project.tasks << Task.create(name: "Design")
+time_tracker_project.tasks << Task.create(name: "Coding")
+time_tracker_project.tasks << Task.create(name: "Debugging")
+time_tracker_project.save!
