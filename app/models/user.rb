@@ -21,24 +21,11 @@ class User < ApplicationRecord
     users = users.paginate(page: paginate_params[:page], per_page: paginate_params[:per_page])
   end
 
-  # !!!WARNING This needs to be sanitized WARNING!!!
   def self.find_by_search_criteria(search_option, search_string, user = nil)
     return User.none unless search_option.presence && search_string.presence
-
-    option = User.arel_table[search_option]
-    User.where(option.matches("%#{search_string}%"))
-=begin
-    in_clause = build_sql_in_clause(:skills, :name, skills)
-    UserProfile.joins(:skills).where(in_clause)
-      .group('user_profiles.id')
-      .having("COUNT(user_profiles.id) >= ? AND COUNT(user_profiles.id) <= ?", from_count(skills.count), skills.count)
-      .order("COUNT(user_profiles.id) DESC, user_profiles.id")
-      .reject{ |p|
-        # Filter out user profiles that the current user is connected with, or, has
-        # outstanding connect requests against.
-        (p.user_id == user.id || user.connect_requests.where(request_user_id: p.user_id).any?) if user.presence && true
-      }
-=end
+    # search_option must be a valid, whitelisted column on the users table.
+    raise ArgumentError unless ['email', 'user_name'].include?(search_option)
+    User.where("users.#{search_option} ILIKE ?", "%#{search_string}%")
   end
 
   # Is the user in the user role?
