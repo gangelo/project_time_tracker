@@ -6,6 +6,23 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+def create_companies_and_projects(company_name, project_name)
+  # Company
+  company = Company.create!(name: company_name)
+
+  company.projects << Project.create!(name: project_name, company: company)
+  company.save!
+
+  project = Project.first
+  project.tasks << Task.create(name: "Design")
+  project.tasks << Task.create(name: "Coding")
+  project.tasks << Task.create(name: "Debugging")
+  project.tasks << Task.create(name: "Miscellaneous")
+  project.save!
+
+  { company: company, project: project}
+end
+
 @total_users = 0
 @admin_role = nil
 @user_role = nil
@@ -36,6 +53,9 @@ end
 
 # Users
 if @total_users > 0
+  project_info = create_companies_and_projects("CoverMyMeds", "Time Tracker")
+  project = project_info[:project]
+
   ActiveRecord::Base.transaction do
     create_roles
     create_admin
@@ -44,21 +64,20 @@ if @total_users > 0
       user.roles << @user_role
       user.confirmed_at = DateTime.now
       user.save!
+
+      project.tasks.each do |t|
+        user.task_times << TaskTime.create(task: t)
+      end
+      user.save!
     end
   end
 end
 
-# Company
-company = Company.create!(name: "CoverMyMeds")
 
-# Add project to company
-#byebug
-company.projects << Project.create!(name: "Time Tracker", company: company)
-company.save!
-#byebug
-
-time_tracker_project = Project.first
-time_tracker_project.tasks << Task.create(name: "Design")
-time_tracker_project.tasks << Task.create(name: "Coding")
-time_tracker_project.tasks << Task.create(name: "Debugging")
-time_tracker_project.save!
+=begin
+user = User.non_admins.first
+user.task_times << TaskTime.create(task: Task.find_by(name: "Design"), user: user)
+user.task_times << TaskTime.create(task: Task.find_by(name: "Coding"), user: user)
+user.task_times << TaskTime.create(task: Task.find_by(name: "Debugging"), user: user)
+user.save!
+=end
