@@ -16,11 +16,13 @@ class User < ApplicationRecord
   scope :non_admins, -> {
     where.not(id: User.joins(:roles).select(:id).where("roles.name = '#{ADMIN_ROLE_NAME}'")) }
 
+  # TODO: Move this to helper and change params to UserSearchCriteria param.
   def self.find_by_search_criteria_with_paginate(search_option, search_string, paginate_params = { page: nil, per_page: nil }, user = nil)
     users = find_by_search_criteria(search_option, search_string, user)
     users = users.paginate(page: paginate_params[:page], per_page: paginate_params[:per_page])
   end
 
+  # TODO: Move this to helper and change params to UserSearchCriteria param.
   def self.find_by_search_criteria(search_option, search_string, user = nil)
     return User.none unless search_option.presence && search_string.presence
     # search_option must be a valid, whitelisted column on the users table.
