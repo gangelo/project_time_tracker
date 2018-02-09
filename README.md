@@ -8,6 +8,11 @@ Finish up Pundit policies
 
 Finish up specs
 
+Handle error logging better at the controller level, for example
+:not_found?
+
+Don't actually delete user accounts, but add deleted switch to the users table.
+
 Code to "showModalDialog" could be DRYed up; lots of common code there.
 
 Internationalize javascript text, for example, modal dialog text.
