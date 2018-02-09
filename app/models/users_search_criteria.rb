@@ -7,23 +7,7 @@ class UsersSearchCriteria < SearchCriteria
     @users = users
 
     super attributes
-
-    #self.class.default_per_page = 15
-
-    #run_callbacks :initialize do; end
   end
-
-  def self.none
-    UsersSearchCriteria.new({}, User.none)
-  end
-
-  #def attributes
-  #  { 'search_string' => search_string, 'search_option' => search_option, 'page' => paginate_params[:page], 'per_page' => paginate_params[:per_page] }
-  #end
-
-  #def show_all?
-  #  search_option == 'show_all'
-  #end
 
   protected
 
