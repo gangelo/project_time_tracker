@@ -18,7 +18,7 @@ end
 
 # Admin
 def create_admin
-  admin = User.new(email: "admin@gmail.com", password: "password")
+  admin = User.new(email: "admin@gmail.com", name: "Admin", password: "password")
   admin.confirmed_at = DateTime.now
   admin.roles << @user_role
   admin.roles << @admin_role
@@ -40,7 +40,7 @@ if @total_users > 0
     create_roles
     create_admin
     (0...@total_users).each do |i|
-      user = User.new(email: "user#{i}@gmail.com", password: "password")
+      user = User.new(email: "user#{i}@gmail.com", name: "User Name #{i}", password: "password")
       user.roles << @user_role
       user.confirmed_at = DateTime.now
       user.save!
