@@ -1,21 +1,44 @@
 <% content_for :title do %>Home<% end %>
 
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque in dictum non consectetur a erat nam. Lorem dolor sed viverra ipsum nunc aliquet bibendum enim facilisis. Sed viverra ipsum nunc aliquet. Viverra accumsan in nisl nisi. Ac turpis egestas maecenas pharetra convallis posuere morbi leo. Fringilla urna porttitor rhoncus dolor. Lacus vel facilisis volutpat est velit egestas. Velit sed ullamcorper morbi tincidunt ornare massa eget egestas. Ullamcorper morbi tincidunt ornare massa eget. Fames ac turpis egestas maecenas pharetra. Tortor condimentum lacinia quis vel eros donec ac odio. Massa sapien faucibus et molestie ac feugiat. Quam pellentesque nec nam aliquam sem et tortor consequat. Duis ultricies lacus sed turpis tincidunt id aliquet.
-</p>
+<% if current_user? %>
+<div style="margin-top: 12px;">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Company</th>
+        <th>Project</th>
+        <th>Task Name</th>
+        <th>Duration</th>
+        <th><%=t '.actions', default: t("helpers.actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @user_task_times.each do |task| %>
+        <tr>
+          <td><%= task.company_name %></td>
+          <td><%= task.project_name %></td>
+          <td><%= task.task_name %></td>
+          <td><%= task.task_duration %></td>
+          <td>
+            <%= link_to "Start", "/", :class => 'btn btn-default btn-xs' %>
+            <% destroy_text = t('.destroy', default: t("helpers.links.destroy")) %>
+            <%= link_to "/", {
+                  method: :delete,
+                  class: 'btn btn-xs btn-danger',
+                  style: 'padding: 6px 12px;',
+                  title: "#{destroy_text}",
+                  data: {
+                    dialog_title: "#{destroy_text} this user?"
+                  },
+                  form: { style: 'display:inline-block;' }
+                } do %>
+                Stop
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
-<p>
-Eget mauris pharetra et ultrices neque ornare aenean euismod elementum. Varius sit amet mattis vulputate enim nulla. Nec tincidunt praesent semper feugiat nibh sed. Mattis nunc sed blandit libero volutpat sed. Elementum nibh tellus molestie nunc non blandit massa enim nec. Interdum velit laoreet id donec ultrices tincidunt. Arcu felis bibendum ut tristique et egestas quis ipsum suspendisse. Pharetra et ultrices neque ornare aenean euismod elementum nisi quis. Vitae auctor eu augue ut lectus arcu bibendum at varius. Ipsum dolor sit amet consectetur adipiscing elit duis. Ut faucibus pulvinar elementum integer. Quis enim lobortis scelerisque fermentum dui. Porttitor eget dolor morbi non arcu risus quis. Scelerisque fermentum dui faucibus in ornare. At auctor urna nunc id. Turpis massa sed elementum tempus egestas sed sed risus pretium. Eget gravida cum sociis natoque penatibus et magnis dis parturient. Felis eget velit aliquet sagittis id consectetur purus ut faucibus. Justo nec ultrices dui sapien eget mi.
-</p>
-
-<p>
-Aliquam sem et tortor consequat id. Erat nam at lectus urna duis. Sit amet volutpat consequat mauris nunc congue nisi. Eu facilisis sed odio morbi quis commodo. Blandit massa enim nec dui nunc mattis enim ut tellus. Dictum varius duis at consectetur. Aliquet lectus proin nibh nisl. Tempor orci eu lobortis elementum nibh tellus. In nisl nisi scelerisque eu ultrices vitae. Arcu cursus euismod quis viverra nibh cras. Bibendum neque egestas congue quisque. Nullam non nisi est sit amet facilisis magna etiam.
-</p>
-
-<p>
-Cum sociis natoque penatibus et magnis dis parturient montes nascetur. Fringilla est ullamcorper eget nulla facilisi etiam dignissim diam. Dui nunc mattis enim ut tellus elementum sagittis. Lacus sed viverra tellus in. Pellentesque massa placerat duis ultricies lacus sed turpis tincidunt id. Massa sed elementum tempus egestas sed sed risus. Netus et malesuada fames ac turpis egestas maecenas. Sagittis id consectetur purus ut faucibus pulvinar elementum integer enim. Aliquam id diam maecenas ultricies. Turpis egestas sed tempus urna et pharetra pharetra massa. Venenatis cras sed felis eget velit aliquet sagittis id consectetur. Quam vulputate dignissim suspendisse in est. Ut lectus arcu bibendum at varius. Dictum sit amet justo donec. Morbi tincidunt ornare massa eget egestas purus viverra accumsan. Pulvinar neque laoreet suspendisse interdum consectetur libero id. In fermentum et sollicitudin ac orci phasellus egestas tellus.
-</p>
-
-<p>
-Ut aliquam purus sit amet. Amet cursus sit amet dictum sit amet justo donec enim. Suspendisse potenti nullam ac tortor vitae. Eget nulla facilisi etiam dignissim diam. Id diam maecenas ultricies mi eget mauris pharetra. Nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit. Nec nam aliquam sem et tortor consequat id. Pulvinar neque laoreet suspendisse interdum consectetur libero id. Ultrices eros in cursus turpis. Turpis egestas integer eget aliquet nibh praesent tristique magna. Sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae nunc. Pretium fusce id velit ut tortor pretium viverra suspendisse. Et leo duis ut diam quam. Cursus in hac habitasse platea dictumst quisque sagittis purus sit. Massa massa ultricies mi quis hendrerit dolor magna eget est. Ultricies mi eget mauris pharetra et ultrices neque ornare.
-</p>
+<% end %>

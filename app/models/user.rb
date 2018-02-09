@@ -50,4 +50,17 @@ class User < ApplicationRecord
     role = role.to_s if role.is_a?(Symbol)
     self.roles.exists?(name: role.downcase)
   end
+
+  def all_task_times
+    user_task_times_array = []
+    self.task_times.each do |t|
+      company_name = t.task.project.company.name
+      project_name = t.task.project.name
+      task_name = t.task.name
+      task_duration = t.duration || 0
+
+      user_task_times_array << UserTaskTimes.new(company_name, project_name, task_name, task_duration)
+    end
+    user_task_times_array
+  end
 end
