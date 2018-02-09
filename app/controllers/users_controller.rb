@@ -18,8 +18,8 @@ class UsersController < ApplicationController
 
   def show
     begin
+      authorize(:user)
       @user = User.find(params[:id])
-      authorize(@user)
     rescue ActiveRecord::RecordNotFound
       # TODO: logging
       redirect_to(users_path, notice: "The user could not be found.")
@@ -27,14 +27,14 @@ class UsersController < ApplicationController
   end
 
   def new
+    authorize(:user)
     @user = User.new
-    authorize(@user)
   end
 
   def edit
     begin
+      authorize(:user)
       @user = User.find(params[:id])
-      authorize(@user)
     rescue ActiveRecord::RecordNotFound
       # TODO: logging
       redirect_to(users_path, notice: "The user could not be found. The user could not be edited.")
@@ -43,8 +43,8 @@ class UsersController < ApplicationController
 
   def update
     begin
+      authorize(:user)
       @user = User.find(params[:id])
-      authorize(@user)
       if @user.update(user_params)
         notice = "The user's email has been updated, and a confirmation email has been sent."
         redirect_to(users_path, notice: notice)
@@ -59,8 +59,8 @@ class UsersController < ApplicationController
 
   def destroy
     begin
+      authorize(:user)
       @user = User.find(params[:id])
-      authorize(@user)
       @user.destroy
       redirect_to users_path, notice: "User #{@user.email} has been deleted"
       return
@@ -79,7 +79,6 @@ class UsersController < ApplicationController
   end
 
   def search_params
-    puts params
     params.require(:users_search_criteria).permit(:search_string, :search_option)
   end
 end

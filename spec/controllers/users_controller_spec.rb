@@ -31,8 +31,8 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "GET #new" do
-    it "should raise an Pundit::NotAuthorizedError error if the user is not authorized" do
-      sign_out @admin_user
+    it "should redirect to sign in page if the user is not authorized" do
+        sign_out @admin_user
       # expect { get :new }.to raise_error(Pundit::NotAuthorizedError)
       get :new
       expect(response).to redirect_to(new_user_session_path)
@@ -45,7 +45,7 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "GET #edit" do
-    it "should raise an Pundit::NotAuthorizedError error if the user is not authorized" do
+    it "should redirect to sign in page if the user is not authorized" do
       sign_out @admin_user
       # expect { get :edit, params: non_admin_user.attributes }.to raise_error(Pundit::NotAuthorizedError)
       get :edit, params: non_admin_user.attributes
@@ -59,9 +59,11 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "GET #show" do
-    it "should raise an Pundit::NotAuthorizedError error if the user is not authorized" do
+    it "should redirect to sign in page if the user is not authorized" do
       sign_out @admin_user
-      expect { get :show, params: { id: non_admin_user.id } }.to raise_error(Pundit::NotAuthorizedError)
+      #expect { get :show, params: { id: non_admin_user.id } }.to raise_error(Pundit::NotAuthorizedError)
+      get :show, params: { id: non_admin_user.id }
+      expect(response).to redirect_to(new_user_session_path)
     end
 
     it "should return :success for admin users" do
@@ -71,16 +73,19 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "PATCH #update" do
-    it "should raise an Pundit::NotAuthorizedError error if the user is not authorized" do
+    it "should redirect to sign in page if the user is not authorized" do
       sign_out @admin_user
-      expect { put :update, params: { id: non_admin_user.id, user: {
+      #expect { put :update, params: { id: non_admin_user.id, user: {
+      #  user_name: 'user_name' } }
+      #}.to raise_error(Pundit::NotAuthorizedError)
+      put :update, params: { id: non_admin_user.id, user: {
         user_name: 'user_name' } }
-      }.to raise_error(Pundit::NotAuthorizedError)
+      expect(response).to redirect_to(new_user_session_path)
     end
 
     it "should return :success for admin users" do
       put :update, params: { id: non_admin_user.id, user: {
-        user_name: 'user_name' } }
+        email: 'untaken.email@untaken.com' } }
       expect(response).to redirect_to(users_path)
     end
   end
