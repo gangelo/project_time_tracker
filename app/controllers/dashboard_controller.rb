@@ -97,12 +97,19 @@ class DashboardController < ApplicationController
 
   def new_task_time
     @task_time = TaskTime.new
-    @companies = [] #Company.all.order(:name)
+    @companies = []
     @projects = []
     @tasks = []
   end
 
   def create_task_time
+    task_id = create_task_time_params[:tasks]
+    current_user.task_times << TaskTime.create(task_id: task_id)
+    if current_user.save
+      redirect_to dashboard_index_path, notice: "Task time was added"
+    else
+      render :new_task_time, alert: "Could not save task time"
+    end
   end
 
   def companies
@@ -117,8 +124,27 @@ class DashboardController < ApplicationController
   end
 
   def tasks
+    task_times = current_user.task_times
+
+    rejected_tasks = task_times.map { |t| t.task.id }
+    rejected_tasks = "(#{rejected_tasks.split(',').join(',')})"
+
     project = Project.find(params[:project_id])
-    tasks = project.tasks.any? ? project.tasks.order(:name) : []
+
+=begin
+    tasks = project.tasks.where("id not in :rejected_tasks",
+                                rejected_tasks: rejected_tasks).
+                                select([:id, :name]).
+                                order(:name)
+=end
+
+  tasks = project.tasks.where("id not in #{rejected_tasks}").
+                              select([:id, :name]).
+                              order(:name)
+
+    #byebug
+
+    tasks = tasks.any? ? tasks : []
     render json: tasks
   end
 
@@ -135,7 +161,8 @@ class DashboardController < ApplicationController
   end
 
   def create_task_time_params
-    params.require(:task_time).permit(:note)
+    #params.require(:create_task_time).permit(:companies, :projects, :tasks)
+    params.permit(:companies, :projects, :tasks)
   end
 
   def update_note_params

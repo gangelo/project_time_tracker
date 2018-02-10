@@ -5,7 +5,7 @@
 
 <%= render partial: 'shared/errors', locals: { resource: @task_time, i18n_key: 'errors.messages.not_saved', i18n_args: nil } %>
 
-<%= form_with(model: @task_time, url: dashboard_create_task_time_path, local: true) do |f| %>
+<%= form_with(scope: :task_time, url: dashboard_create_task_time_path, local: true) do |f| %>
   <div class="form-group">
     <div class='input-md'><%= f.label 'Company' %></div>
     <div class='input-md'>
