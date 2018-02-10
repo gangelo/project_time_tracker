@@ -95,6 +95,33 @@ class DashboardController < ApplicationController
   #def destroy_note
   #end
 
+  def new_task_time
+    @task_time = TaskTime.new
+    @companies = [] #Company.all.order(:name)
+    @projects = []
+    @tasks = []
+  end
+
+  def create_task_time
+  end
+
+  def companies
+    companies = Company.order(:name)
+    render json: companies
+  end
+
+  def projects
+    company = Company.find(params[:company_id])
+    projects = company.projects
+    render json: projects
+  end
+
+  def tasks
+    project = Project.find(params[:project_id])
+    tasks = project.tasks.any? ? project.tasks.order(:name) : []
+    render json: tasks
+  end
+
   protected
 
   def force_task_stop(task_times)
@@ -105,6 +132,10 @@ class DashboardController < ApplicationController
     task_times.duration = duration
     task_times.start_time = nil
     task_times.save
+  end
+
+  def create_task_time_params
+    params.require(:task_time).permit(:note)
   end
 
   def update_note_params

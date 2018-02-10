@@ -1,0 +1,133 @@
+<% content_for :title do %>Add Task Time<% end %>
+<div class="page-header">
+  <h1>Add Task Time</h1>
+</div>
+
+<%= render partial: 'shared/errors', locals: { resource: @task_time, i18n_key: 'errors.messages.not_saved', i18n_args: nil } %>
+
+<%= form_with(model: @task_time, url: dashboard_create_task_time_path, local: true) do |f| %>
+  <div class="form-group">
+    <div class='input-md'><%= f.label 'Company' %></div>
+    <div class='input-md'>
+      <%= select_tag "companies",
+             options_from_collection_for_select(@companies, "id", "name"),
+             { onchange: "companies_onchange(this);", class: "select-min-width" } %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class='input-md'><%= f.label 'Project' %></div>
+    <div class='input-md'>
+      <%= select_tag "projects",
+            options_from_collection_for_select(@projects, "id", "name"),
+            { onchange: "projects_onchange(this);", class: "select-min-width" } %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class='input-md'><%= f.label 'Task' %></div>
+    <div class='input-md'>
+      <%= select_tag "tasks",
+            options_from_collection_for_select(@tasks, "id", "name"),
+            { onchange: "tasks_onchange(this);", class: "select-min-width" } %>
+    </div>
+  </div>
+
+  <div class='actions form-group'>
+    <div class='input-md'>
+      <%= submit_tag 'Add task time', id: :submit_button, class: 'btn btn-primary' %>
+      <%= link_to 'Cancel', dashboard_index_path, class: 'btn btn-default' %>
+    </div>
+  </div>
+<% end %>
+
+<% content_for :javascripts do %>
+  <script>
+    $(function() {
+      initSelect("companies");
+      initSelect("projects");
+      initSelect("tasks");
+
+      enableSubmitButton(false);
+
+      $.ajax({
+        url: "/dashboard/companies",
+        success: function(data, textStatus, jqXHR) {
+          $("#companies").prop("disabled", false);
+          addItemsTo("companies", data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert("AJAX Error:" + textStatus);
+        }
+      });
+    });
+
+    function companies_onchange(selectElement) {
+      initSelect("projects");
+      initSelect("tasks");
+      enableSubmitButton(false);
+      let selected = selectElement.options[selectElement.selectedIndex];
+      let companyId = selected.value;
+      $.ajax({
+        url: "/dashboard/projects?company_id=" + companyId,
+        success: function(data, textStatus, jqXHR) {
+          $("#projects").prop("disabled", false);
+          addItemsTo("projects", data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert("AJAX Error:" + textStatus);
+        }
+      });
+    };
+
+    function projects_onchange(selectElement) {
+      initSelect("tasks");
+      enableSubmitButton(false);
+      let selected = selectElement.options[selectElement.selectedIndex];
+      let projectId = selected.value;
+      $.ajax({
+        url: "/dashboard/tasks?project_id=" + projectId,
+        success: function(data, textStatus, jqXHR) {
+          $("#tasks").prop("disabled", false);
+          addItemsTo("tasks", data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert("AJAX Error:" + textStatus);
+        }
+      });
+    };
+
+    function tasks_onchange(selectElement) {
+      let selected = selectElement.options[selectElement.selectedIndex];
+      let taskId = selected.value;
+      enableSubmitButton(taskId > 0);
+    };
+
+    function addItemsTo(selectId, json) {
+      let $select = $('#' + selectId);
+      $.each(json, function (i, item) {
+        $select.append(
+          $('<option>', { value: item.id, text: item.name })
+        );
+      });
+    };
+
+    function getSelectedValueFor(selectElement) {
+      let selected = selectElement.options[selectElement.selectedIndex];
+      return selected.value;
+    };
+
+    function enableSubmitButton(enable) {
+      enableControl("submit_button", enable);
+    };
+
+    function enableControl(elementId, enable) {
+      $("#" + elementId).prop("disabled", !enable);
+    };
+
+    function initSelect(selectId) {
+      let $select = $("#" + selectId)
+      $select.find("option").remove();
+      $select.append($('<option>', { value: 0, text: "--- Select --- " }));
+      enableControl(selectId, false);
+    }
+  </script>
+<% end %>

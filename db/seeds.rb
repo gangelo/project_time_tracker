@@ -10,17 +10,35 @@ def create_companies_and_projects(company_name, project_name)
   # Company
   company = Company.create!(name: company_name)
 
-  company.projects << Project.create!(name: project_name, company: company)
-  company.save!
+  if project_name.is_a?(Array)
+    projects = []
 
-  project = Project.first
-  project.tasks << Task.create(name: "Design")
-  project.tasks << Task.create(name: "Coding")
-  project.tasks << Task.create(name: "Debugging")
-  project.tasks << Task.create(name: "Miscellaneous")
-  project.save!
+    project_name.each_with_index do |n, i|
+      project = Project.create!(name: n, company: company)
+      project.tasks << Task.create(name: "Design#{i}")
+      project.tasks << Task.create(name: "Coding#{i}")
+      project.tasks << Task.create(name: "Debugging#{i}")
+      project.tasks << Task.create(name: "Miscellaneous#{i}")
+      project.save!
+      projects << project
+    end
 
-  { company: company, project: project}
+    company.save!
+
+    { company: company, project: projects}
+  else
+    company.projects << Project.create!(name: project_name, company: company)
+    project = Project.first
+    project.tasks << Task.create(name: "Design")
+    project.tasks << Task.create(name: "Coding")
+    project.tasks << Task.create(name: "Debugging")
+    project.tasks << Task.create(name: "Miscellaneous")
+    project.save!
+
+    company.save!
+
+    { company: company, project: project}
+  end
 end
 
 @total_users = 0
@@ -73,11 +91,6 @@ if @total_users > 0
   end
 end
 
-
-=begin
-user = User.non_admins.first
-user.task_times << TaskTime.create(task: Task.find_by(name: "Design"), user: user)
-user.task_times << TaskTime.create(task: Task.find_by(name: "Coding"), user: user)
-user.task_times << TaskTime.create(task: Task.find_by(name: "Debugging"), user: user)
-user.save!
-=end
+create_companies_and_projects("Facebook", ["FB User Privacy", "FB Rewards"])
+create_companies_and_projects("Twitter",  ["T User Privacy", "T Rewards"])
+create_companies_and_projects("Hulu",  ["H User Privacy", "H Rewards"])
