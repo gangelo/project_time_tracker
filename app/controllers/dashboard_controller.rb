@@ -23,7 +23,6 @@ class DashboardController < ApplicationController
       force_task_stop(t) unless t.start_time.nil?
     end
 
-    task_time.duration = 0 if task_time.duration.nil?
     task_time.start_time = DateTime.now
     if task_time.save
       redirect_to dashboard_index_path
@@ -125,7 +124,7 @@ class DashboardController < ApplicationController
   def create_task_time
     task_id = create_task_time_params[:tasks]
     current_user.task_times << TaskTime.create(task_id: task_id)
-    byebug
+
     if current_user.save
       redirect_to dashboard_index_path, notice: "Task time was added"
     else
