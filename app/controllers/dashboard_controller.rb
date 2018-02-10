@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
   include DashboardHelper
-  
+
   before_action :authenticate_user!
 
   def index
@@ -125,6 +125,7 @@ class DashboardController < ApplicationController
   def create_task_time
     task_id = create_task_time_params[:tasks]
     current_user.task_times << TaskTime.create(task_id: task_id)
+    byebug
     if current_user.save
       redirect_to dashboard_index_path, notice: "Task time was added"
     else
@@ -134,13 +135,24 @@ class DashboardController < ApplicationController
 
   def companies
     companies = Company.order(:name)
-    render json: companies
+    respond_to do |format|
+      message = companies.present? ? "" : "There are no companies available at this time"
+      status = companies.present? ? :ok : :not_found
+      format.json { render json: { response: companies, status: status,
+                    message: message } }
+    end
   end
 
   def projects
     company = Company.find(params[:company_id])
-    projects = company.projects
-    render json: projects
+    projects = company.projects unless company.nil?
+    respond_to do |format|
+      format.json do
+        message = projects.present? ? "" : "There are no projects for this company"
+        status = projects.present? ? :ok : :not_found
+        render json: { response: projects, status: status, message: message }
+      end
+    end
   end
 
   def tasks
@@ -151,14 +163,22 @@ class DashboardController < ApplicationController
 
     project = Project.find(params[:project_id])
 
-    tasks = rejected_tasks.any? ?
+    tasks = rejected_tasks.present? ?
       project.tasks.where("id not in (#{rejected_tasks})").
                           select([:id, :name]).
                           order(:name) :
                           project.tasks.select([:id, :name]).order(:name)
 
-    tasks = tasks.any? ? tasks : []
-    render json: tasks
+    tasks = tasks.present? ? tasks : []
+    respond_to do |format|
+      format.json do
+        message = tasks.present? ? "" :
+          "There are no tasks for this project or...\n\n"\
+          "you already have all tasks for this project associated with you."
+        status = tasks.present? ? :ok : :not_found
+        render json: { response: tasks, status: status, message: message }
+      end
+    end
   end
 
   protected

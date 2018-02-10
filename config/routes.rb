@@ -30,11 +30,11 @@ Rails.application.routes.draw do
       as: :dashboard_new_task_time
     post 'dashboard/create_task_time', to: 'dashboard#create_task_time',
       as: :dashboard_create_task_time
-    get 'dashboard/companies', to: 'dashboard#companies',
+    get 'dashboard/companies.json', to: 'dashboard#companies',
       as: :dashboard_companies
-    get 'dashboard/projects', to: 'dashboard#projects',
+    get 'dashboard/projects.json', to: 'dashboard#projects',
       as: :dashboard_projects
-    get 'dashboard/tasks', to: 'dashboard#tasks',
+    get 'dashboard/tasks.json', to: 'dashboard#tasks',
       as: :dashboard_tasks
     get 'dashboard/edit_duration/:id', to: 'dashboard#edit_duration',
       as: :dashboard_edit_duration

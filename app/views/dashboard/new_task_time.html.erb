@@ -49,12 +49,11 @@
       enableSubmitButton(false);
 
       $.ajax({
-        url: "/dashboard/companies",
+        url: "/dashboard/companies.json",
         success: function(data, textStatus, jqXHR) {
-          let message = "No companies are available at this time.";
-          if (guardNoData(data, message)) {
+          if (guardData(data)) {
             enableControl("companies", true);
-            addItemsTo("companies", data);
+            addItemsTo("companies", data["response"]);
           }
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -70,12 +69,11 @@
       let selected = selectElement.options[selectElement.selectedIndex];
       let companyId = selected.value;
       $.ajax({
-        url: "/dashboard/projects?company_id=" + companyId,
+        url: "/dashboard/projects.json?company_id=" + companyId,
         success: function(data, textStatus, jqXHR) {
-          let message = "No projects are available for this company at this time.";
-          if (guardNoData(data, message)) {
+          if (guardData(data)) {
             enableControl("projects", true);
-            addItemsTo("projects", data);
+            addItemsTo("projects", data["response"]);
           }
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -90,14 +88,11 @@
       let selected = selectElement.options[selectElement.selectedIndex];
       let projectId = selected.value;
       $.ajax({
-        url: "/dashboard/tasks?project_id=" + projectId,
+        url: "/dashboard/tasks.json?project_id=" + projectId,
         success: function(data, textStatus, jqXHR) {
-          let message = "No tasks are available at this time.";
-          message += "\n\nThe project either has no tasks available, ";
-          message += "or you already have all tasks assigned for this project.";
-          if (guardNoData(data, message)) {
+          if (guardData(data)) {
             enableControl("tasks", true)
-            addItemsTo("tasks", data);
+            addItemsTo("tasks", data["response"]);
           }
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -112,9 +107,11 @@
       enableSubmitButton(taskId > 0);
     };
 
-    function guardNoData(json, message) {
-      if (json.length == 0) {
-        alert(message);
+    function guardData(data) {
+      json = data["response"];
+      status = data["status"];
+      if (status != "ok") {
+        alert(data["message"]);
         return false;
       }
       return true;
