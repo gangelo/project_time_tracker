@@ -26,6 +26,8 @@ Rails.application.routes.draw do
       as: :dashboard_edit_note
     patch 'dashboard/update_note/:id', to: 'dashboard#update_note',
       as: :dashboard_update_note
+    #delete 'dashboard/destroy_note/:id', to: 'dashboard#destroy_note',
+    #  as: :dashboard_destroy_note
 
     # Error handling routes
     match '/401', to: 'errors#unauthorized', via: :all, as: :unauthorized_error

@@ -39,6 +39,15 @@
   &:extend(.btn-danger);
 }
 
+.btn-logout {
+  padding-top: 0px;
+  background-color: transparent;
+}
+
+.btn-delete {
+  &:extend(.btn-danger);
+}
+
 // Extend the bootstrap .container class for the header tag.
 header, main, footer {
   &:extend(.container);
@@ -72,6 +81,7 @@ footer {
   border: 0;
 }
 
+/* gma
 .btn-warning,
 .btn-special,
 a.btn-special {
@@ -79,6 +89,7 @@ a.btn-special {
   background-color: #dedede;
   border-color: #ccc;
 }
+*/
 
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
@@ -120,18 +131,6 @@ a.btn-special {
   padding: 15px;
 }
 
-// Skill buttons
-.btn-skill {
-  &:extend(.btn-success);
-
-  margin-right:.33em;
-  margin-bottom:.33em;
-
-  &>i {
-    color:#356F35;
-  }
-}
-
 .modal>.modal-dialog>.modal-content>.modal-body {
   font-size: 18px;
 }
@@ -152,7 +151,7 @@ a.btn-special {
   }
 }
 
-// Skill buttons
+/* gma
 .btn-special {
   &:extend(.btn-warning);
   background-color: @default-app-highlight;
@@ -202,7 +201,6 @@ a.btn-cancel {
   &:extend(.btn-cancel);
 }
 
-/* Search skills */
 .btn.btn-skill-valid-false {
   background-color: #d00 !important;
   border-color: #b00 !important;
@@ -211,6 +209,7 @@ a.btn-cancel {
 .fa.btn-skill-valid-false {
   color: #700 !important;
 }
+*/
 
 /* Font Awesome tweeks*/
 .thumbnail > .fa.fa-xl {

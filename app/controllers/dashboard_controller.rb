@@ -72,20 +72,28 @@ class DashboardController < ApplicationController
 
     task_note = update_note_params[:note]
     task_note.strip!
-    if task_note.blank?
-      @task_time.errors.add(:note, 'is required')
-      render :edit_note and return
+
+    if params[:delete_note].present?
+      task_note = nil
+    else
+      if task_note.blank?
+        @task_time.errors.add(:note, 'is required')
+        render :edit_note and return
+      end
     end
 
     @task_time.note = task_note
 
-    if @task_time.update(update_note_params)
+    if @task_time.save
       notice = "The task note has been updated."
       redirect_to(dashboard_index_path, notice: notice)
     else
       render :edit_note
     end
   end
+
+  #def destroy_note
+  #end
 
   protected
 

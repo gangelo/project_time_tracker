@@ -29,7 +29,7 @@
                   dashboard_stop_task_path(id: task.task_times_id),
                   class: 'btn btn-stop btn-xs' %>
             </div>
-            <%= link_to "Add Note",
+            <%= link_to task.task_note.blank? ? "Add note" : "Edit note",
               dashboard_edit_note_path(task.task_times_id),
               class: 'btn btn-info btn-xs' %>
           </td>
