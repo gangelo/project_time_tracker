@@ -42,7 +42,9 @@
                     <div style="margin-top: 15px;">Log out</div>
                 <% end %>
               </li>
-              <li><%= link_to "Profile", "/profile_path" %></li>
+              <% if current_user? %>
+                <li><%= link_to "Dashboard", dashboard_index_path %></li>
+              <% end %>
             <% else %>
               <li><%= link_to "Log in", new_user_session_path %></li>
               <li><%= link_to "Sign up", new_user_registration_path %></li>

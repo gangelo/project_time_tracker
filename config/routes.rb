@@ -17,6 +17,10 @@ Rails.application.routes.draw do
     match '/users/search', to: 'users#search', via: [:get, :post]
     resources :users
 
+    get 'dashboard/index'
+    post 'dashboard/start_task/:id', to: 'dashboard#start_task'
+    post 'dashboard/stop_task/:id', to: 'dashboard#stop_task'
+
     # Error handling routes
     match '/401', to: 'errors#unauthorized', via: :all, as: :unauthorized_error
     match '/404', to: 'errors#not_found', via: :all, as: :not_found_error

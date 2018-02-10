@@ -1,0 +1,36 @@
+<div style="margin-top: 12px;">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Company</th>
+        <th>Project</th>
+        <th>Task Name</th>
+        <th>Duration</th>
+        <th>Status</th>
+        <th><%=t '.actions', default: t("helpers.actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @user_task_times.each do |task| %>
+        <tr>
+          <td><%= task.company_name %></td>
+          <td><%= task.project_name %></td>
+          <td><%= task.task_name %></td>
+          <td><%= task.task_duration %> seconds</td>
+          <td><%= "Started" if task.started? %></td>
+          <td>
+            <%= button_to "Start",
+              "/en/dashboard/start_task/#{task.task_times_id}",
+              class: 'btn btn-default btn-xs' %>
+            <%= button_to "Stop",
+                "/en/dashboard/stop_task/#{task.task_times_id}",
+                class: 'btn btn-stop btn-xs' %>
+            <%= button_to "Add Note",
+              "/en/dashboard/start_task/#{task.task_times_id}",
+              class: 'btn btn-default btn-xs' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

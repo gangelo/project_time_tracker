@@ -54,13 +54,17 @@ class User < ApplicationRecord
   def all_task_times
     user_task_times_array = []
     self.task_times.each do |t|
+      task_times_id = t.id
       company_name = t.task.project.company.name
       project_name = t.task.project.name
       task_name = t.task.name
       task_duration = t.duration || 0
+      task_start_time = t.start_time
 
-      user_task_times_array << UserTaskTimes.new(company_name, project_name, task_name, task_duration)
+      user_task_times_array << UserTaskTimes.new(task_times_id,
+        company_name, project_name, task_name, task_duration, task_start_time)
     end
+    user_task_times_array = user_task_times_array.sort_by { |obj| obj.sort_field } unless user_task_times_array.empty?
     user_task_times_array
   end
 end

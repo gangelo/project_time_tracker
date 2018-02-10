@@ -35,6 +35,10 @@
 @delete-color: #D9534F;
 @view-color: #428BCA;
 
+.btn-stop {
+  &:extend(.btn-danger);
+}
+
 // Extend the bootstrap .container class for the header tag.
 header, main, footer {
   &:extend(.container);
