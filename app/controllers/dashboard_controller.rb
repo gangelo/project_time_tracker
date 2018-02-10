@@ -6,15 +6,12 @@ class DashboardController < ApplicationController
   end
 
   def start_task
-    user_id = current_user.id
-    task_times_id = params[:id].to_i
-    task_times = TaskTime.find(task_times_id)
-    if task_times.nil? || task_times.user_id != user_id
-      redirect_to dashboard_index_path, alert: "You cannot start this task"
-      return
+    task_time_id = params[:id].to_i
+    task_time = task_time_for_current_user(task_time_id) do |error|
+      redirect_to dashboard_index_path, alert: "You cannot start this task" and return
     end
 
-    unless task_times.start_time.nil?
+    unless task_time.start_time.nil?
       redirect_to dashboard_index_path, alert: "This task is already started"
       return
     end
@@ -24,28 +21,27 @@ class DashboardController < ApplicationController
       force_task_stop(t) unless t.start_time.nil?
     end
 
-    task_times.duration = 0 if task_times.duration.nil?
-    task_times.start_time = DateTime.now
-    if task_times.save
-      redirect_to dashboard_index_path, notice: "The task has been started."
+    task_time.duration = 0 if task_time.duration.nil?
+    task_time.start_time = DateTime.now
+    if task_time.save
+      redirect_to dashboard_index_path
     else
       redirect_to dashboard_index_path, alert: "The task could not be saved."
     end
   end
 
   def stop_task
-    task_times_id = params[:id].to_i
-    task_times = TaskTime.find(task_times_id)
-    if task_times.nil? || task_times.user_id != current_user.id
+    task_time_id = params[:id].to_i
+    task_time = task_time_for_current_user(task_time_id) do |error|
       redirect_to dashboard_index_path, alert: "You cannot stop this task" and return
     end
 
-    if task_times.start_time.nil?
+    if task_time.start_time.nil?
       redirect_to dashboard_index_path, alert: "This task is already stopped" and return
     end
 
-    if force_task_stop(task_times)
-      redirect_to dashboard_index_path, notice: "Task stopped."
+    if force_task_stop(task_time)
+      redirect_to dashboard_index_path
     else
       redirect_to dashboard_index_path, alert: "The task could not be saved."
     end
