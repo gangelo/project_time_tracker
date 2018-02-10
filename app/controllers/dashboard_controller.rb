@@ -51,23 +51,48 @@ class DashboardController < ApplicationController
     end
   end
 
-  def edit_note
-    user_id = current_user.id
+  def edit_duration
     task_time_id = params[:id].to_i
-    @task_time = TaskTime.find(task_time_id)
-    if @task_time.nil? || @task_time.user_id != user_id
-      redirect_to dashboard_index_path, alert: "You cannot edit the note for this task"
-      return
+    @task_time = task_time_for_current_user(task_time_id) do |error|
+      redirect_to dashboard_index_path, alert: error and return
+    end
+  end
+
+  def update_duration
+    task_time_id = params[:id].to_i
+    @task_time = task_time_for_current_user(task_time_id) do |error|
+      redirect_to dashboard_index_path, alert: error and return
+    end
+
+    duration = update_duration_params[:duration]
+    if duration.blank? || /[\D]+/.match?(duration)
+      @task_time.errors.add(:duration, 'must be numeric')
+      render :edit_duration and return
+    end
+
+    duration = duration.to_i
+    @task_time.duration = duration
+    @task_time.start_time = nil
+
+    if @task_time.save
+      notice = "The task has been stopped and the duration has been updated."
+      redirect_to(dashboard_index_path, notice: notice)
+    else
+      render :edit_duration, alert: "The duration could not be updated. The task has been stopped."
+    end
+  end
+
+  def edit_note
+    task_time_id = params[:id].to_i
+    @task_time = task_time_for_current_user(task_time_id) do |error|
+      redirect_to dashboard_index_path, alert: error and return
     end
   end
 
   def update_note
-    user_id = current_user.id
     task_time_id = params[:id].to_i
-    @task_time = TaskTime.find(task_time_id)
-    if @task_time.nil? || @task_time.user_id != user_id
-      redirect_to dashboard_index_path, alert: "You cannot update a note for this task"
-      return
+    @task_time = task_time_for_current_user(task_time_id) do |error|
+      redirect_to dashboard_index_path, alert: error and return
     end
 
     task_note = update_note_params[:note]
@@ -91,9 +116,6 @@ class DashboardController < ApplicationController
       render :edit_note
     end
   end
-
-  #def destroy_note
-  #end
 
   def new_task_time
     @task_time = TaskTime.new
@@ -143,9 +165,16 @@ class DashboardController < ApplicationController
 
   protected
 
+  def task_time_for_current_user(task_time_id)
+    task_time = TaskTime.find(task_time_id)
+    return task_time unless task_time.nil? || task_time.user_id != current_user.id
+    yield "The Task Time is not associated with you"
+  rescue ActiveRecord::RecordNotFound
+    yield "The Task Time could not be found"
+  end
+
   def force_task_stop(task_times)
     start_time = task_times.start_time
-
     duration = task_times.duration || 0
     duration += ((DateTime.now - DateTime.parse(start_time.to_s(:rfc822))) * 24 * 60 * 60).to_i
     task_times.duration = duration
@@ -154,11 +183,14 @@ class DashboardController < ApplicationController
   end
 
   def create_task_time_params
-    #params.require(:create_task_time).permit(:companies, :projects, :tasks)
     params.permit(:companies, :projects, :tasks)
   end
 
   def update_note_params
     params.require(:task_time).permit(:note)
+  end
+
+  def update_duration_params
+    params.require(:task_time).permit(:duration)
   end
 end

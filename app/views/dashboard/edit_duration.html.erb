@@ -1,0 +1,32 @@
+<% content_for :title do %>Edit Duration<% end %>
+<div class="page-header">
+  <h1>Task Duration</h1>
+</div>
+
+<%= render partial: 'shared/errors', locals: { resource: @task_time, i18n_key: 'errors.messages.not_saved', i18n_args: nil } %>
+
+<%= form_with(model: @task_time, url: dashboard_update_duration_path, local: true) do |f| %>
+  <div class="form-group">
+    <div class='input-md'><%= f.label 'Company' %></div>
+    <div class='input-md'><%= @task_time.task.project.company.name %></div>
+  </div>
+  <div class="form-group">
+    <div class='input-md'><%= f.label 'Project' %></div>
+    <div class='input-md'><%= @task_time.task.project.name %></div>
+  </div>
+  <div class="form-group">
+    <div class='input-md'><%= f.label 'Task' %></div>
+    <div class='input-md'><%= @task_time.task.name %></div>
+  </div>
+  <div class="form-group">
+    <div class='input-md'><%= f.label :duration %></div>
+    <div class='input-md'><%= f.text_field :duration, class: "form-control" %></div>
+  </div>
+
+  <div class='actions form-group'>
+    <div class='input-md'>
+      <%= submit_tag 'Save Duation', class: 'btn btn-primary' %>
+      <%= link_to 'Cancel', dashboard_index_path, class: 'btn btn-default' %>
+    </div>
+  </div>
+<% end %>
