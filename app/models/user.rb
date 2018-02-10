@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :user_roles, dependent: :delete_all
   has_many :roles, through: :user_roles
 
-  has_many :task_times
+  has_many :task_times, dependent: :delete_all
 
   scope :admins, -> { joins(:roles).where("roles.name = '#{ADMIN_ROLE_NAME}'") }
   scope :non_admins, -> {

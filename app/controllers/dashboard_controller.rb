@@ -125,24 +125,17 @@ class DashboardController < ApplicationController
 
   def tasks
     task_times = current_user.task_times
-
+byebug
     rejected_tasks = task_times.map { |t| t.task.id }
-    rejected_tasks = "(#{rejected_tasks.split(',').join(',')})"
+    rejected_tasks = rejected_tasks.split(',').join(',') unless rejected_tasks.empty?
 
     project = Project.find(params[:project_id])
 
-=begin
-    tasks = project.tasks.where("id not in :rejected_tasks",
-                                rejected_tasks: rejected_tasks).
-                                select([:id, :name]).
-                                order(:name)
-=end
-
-  tasks = project.tasks.where("id not in #{rejected_tasks}").
-                              select([:id, :name]).
-                              order(:name)
-
-    #byebug
+    tasks = rejected_tasks.any? ?
+      project.tasks.where("id not in (#{rejected_tasks})").
+                          select([:id, :name]).
+                          order(:name) :
+                          project.tasks.select([:id, :name]).order(:name)
 
     tasks = tasks.any? ? tasks : []
     render json: tasks

@@ -86,7 +86,5 @@ class UsersController < ApplicationController
   def create_initial_search_criteria
     paginate_params = { page: params[:page].presence || 1, per_page: params[:per_page] }
     UsersSearchCriteria.new({ search_string: "", search_option: "show_all" }.merge(paginate_params))
-    #paginate_params = { page: params[:page].presence || 1, per_page: params[:per_page] }
-    #UsersSearchCriteria.new(paginate_params.merge(paginate_params))
   end
 end

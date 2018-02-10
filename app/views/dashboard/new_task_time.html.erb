@@ -51,8 +51,11 @@
       $.ajax({
         url: "/dashboard/companies",
         success: function(data, textStatus, jqXHR) {
-          $("#companies").prop("disabled", false);
-          addItemsTo("companies", data);
+          let message = "No companies are available at this time.";
+          if (guardNoData(data, message)) {
+            enableControl("companies", true);
+            addItemsTo("companies", data);
+          }
         },
         error: function(jqXHR, textStatus, errorThrown) {
           alert("AJAX Error:" + textStatus);
@@ -69,8 +72,11 @@
       $.ajax({
         url: "/dashboard/projects?company_id=" + companyId,
         success: function(data, textStatus, jqXHR) {
-          $("#projects").prop("disabled", false);
-          addItemsTo("projects", data);
+          let message = "No projects are available for this company at this time.";
+          if (guardNoData(data, message)) {
+            enableControl("projects", true);
+            addItemsTo("projects", data);
+          }
         },
         error: function(jqXHR, textStatus, errorThrown) {
           alert("AJAX Error:" + textStatus);
@@ -86,8 +92,13 @@
       $.ajax({
         url: "/dashboard/tasks?project_id=" + projectId,
         success: function(data, textStatus, jqXHR) {
-          $("#tasks").prop("disabled", false);
-          addItemsTo("tasks", data);
+          let message = "No tasks are available at this time.";
+          message += "\n\nThe project either has no tasks available, ";
+          message += "or you already have all tasks assigned for this project.";
+          if (guardNoData(data, message)) {
+            enableControl("tasks", true)
+            addItemsTo("tasks", data);
+          }
         },
         error: function(jqXHR, textStatus, errorThrown) {
           alert("AJAX Error:" + textStatus);
@@ -99,6 +110,14 @@
       let selected = selectElement.options[selectElement.selectedIndex];
       let taskId = selected.value;
       enableSubmitButton(taskId > 0);
+    };
+
+    function guardNoData(json, message) {
+      if (json.length == 0) {
+        alert(message);
+        return false;
+      }
+      return true;
     };
 
     function addItemsTo(selectId, json) {

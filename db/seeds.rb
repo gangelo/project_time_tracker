@@ -94,3 +94,8 @@ end
 create_companies_and_projects("Facebook", ["FB User Privacy", "FB Rewards"])
 create_companies_and_projects("Twitter",  ["T User Privacy", "T Rewards"])
 create_companies_and_projects("Hulu",  ["H User Privacy", "H Rewards"])
+
+puts "Done."
+
+puts "Login as admin using: email: admin@gmail.com, password: password"
+puts "Login as non-admin using: email: user\#@gmail.com, password: password, where \#=1..n"
