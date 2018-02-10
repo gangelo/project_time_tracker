@@ -51,6 +51,42 @@ class DashboardController < ApplicationController
     end
   end
 
+  def edit_note
+    user_id = current_user.id
+    task_time_id = params[:id].to_i
+    @task_time = TaskTime.find(task_time_id)
+    if @task_time.nil? || @task_time.user_id != user_id
+      redirect_to dashboard_index_path, alert: "You cannot edit the note for this task"
+      return
+    end
+  end
+
+  def update_note
+    user_id = current_user.id
+    task_time_id = params[:id].to_i
+    @task_time = TaskTime.find(task_time_id)
+    if @task_time.nil? || @task_time.user_id != user_id
+      redirect_to dashboard_index_path, alert: "You cannot update a note for this task"
+      return
+    end
+
+    task_note = update_note_params[:note]
+    task_note.strip!
+    if task_note.blank?
+      @task_time.errors.add(:note, 'is required')
+      render :edit_note and return
+    end
+
+    @task_time.note = task_note
+
+    if @task_time.update(update_note_params)
+      notice = "The task note has been updated."
+      redirect_to(dashboard_index_path, notice: notice)
+    else
+      render :edit_note
+    end
+  end
+
   protected
 
   def force_task_stop(task_times)
@@ -63,7 +99,7 @@ class DashboardController < ApplicationController
     task_times.save
   end
 
-  def task_params
-    params.require(:user_task_times).permit(:task_times_id)
+  def update_note_params
+    params.require(:task_time).permit(:note)
   end
 end

@@ -18,8 +18,14 @@ Rails.application.routes.draw do
     resources :users
 
     get 'dashboard/index'
-    post 'dashboard/start_task/:id', to: 'dashboard#start_task'
-    post 'dashboard/stop_task/:id', to: 'dashboard#stop_task'
+    post 'dashboard/start_task/:id', to: 'dashboard#start_task',
+      as: :dashboard_start_task
+    post 'dashboard/stop_task/:id', to: 'dashboard#stop_task',
+      as: :dashboard_stop_task
+    get 'dashboard/edit_note/:id', to: 'dashboard#edit_note',
+      as: :dashboard_edit_note
+    patch 'dashboard/update_note/:id', to: 'dashboard#update_note',
+      as: :dashboard_update_note
 
     # Error handling routes
     match '/401', to: 'errors#unauthorized', via: :all, as: :unauthorized_error
