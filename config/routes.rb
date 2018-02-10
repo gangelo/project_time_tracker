@@ -26,8 +26,6 @@ Rails.application.routes.draw do
       as: :dashboard_edit_note
     patch 'dashboard/update_note/:id', to: 'dashboard#update_note',
       as: :dashboard_update_note
-    #delete 'dashboard/destroy_note/:id', to: 'dashboard#destroy_note',
-    #  as: :dashboard_destroy_note
     get 'dashboard/new_task_time', to: 'dashboard#new_task_time',
       as: :dashboard_new_task_time
     post 'dashboard/create_task_time', to: 'dashboard#create_task_time',
@@ -38,6 +36,10 @@ Rails.application.routes.draw do
       as: :dashboard_projects
     get 'dashboard/tasks', to: 'dashboard#tasks',
       as: :dashboard_tasks
+    get 'dashboard/edit_duration/:id', to: 'dashboard#edit_duration',
+      as: :dashboard_edit_duration
+    patch 'dashboard/update_duration/:id', to: 'dashboard#update_duration',
+      as: :dashboard_update_duration
 
     # Error handling routes
     match '/401', to: 'errors#unauthorized', via: :all, as: :unauthorized_error

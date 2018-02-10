@@ -6,6 +6,7 @@ class UserTaskTimes
   attr_reader :task_times_id
   attr_reader :task_start_time
   attr_reader :task_note
+  attr_reader :task_status
 
   attr_reader :sort_field
 
@@ -17,6 +18,8 @@ class UserTaskTimes
     @task_name = user_task_times.task.name
     @task_duration = user_task_times.duration || 0
     @task_start_time = user_task_times.start_time
+
+    @task_status = started? ? "Started" : ""
 
     # Terrible!
     @sort_field = "#{@company_name}#{@project_name}#{@task_name}"

@@ -125,7 +125,7 @@ class DashboardController < ApplicationController
 
   def tasks
     task_times = current_user.task_times
-byebug
+
     rejected_tasks = task_times.map { |t| t.task.id }
     rejected_tasks = rejected_tasks.split(',').join(',') unless rejected_tasks.empty?
 

@@ -4,10 +4,9 @@
       <tr>
         <th>Company</th>
         <th>Project</th>
-        <th>Task Name</th>
+        <th>Task</th>
         <th>Duration</th>
-        <th>Status</th>
-        <th><%=t '.actions', default: t("helpers.actions") %></th>
+        <th>Notes</th>
       </tr>
     </thead>
     <tbody>
@@ -15,31 +14,44 @@
         <tr>
           <td><%= task.company_name %></td>
           <td><%= task.project_name %></td>
-          <td><%= task.task_name %></td>
-          <td><%= task.task_duration %> seconds</td>
-          <td><%= "Started" if task.started? %></td>
           <td>
-            <div class="pull-left" style="margin-right:5px;">
-              <%= button_to "Start",
-                dashboard_start_task_path(id: task.task_times_id),
-                class: 'btn btn-success btn-xs' %>
-            </div>
-            <div class="pull-left" style="margin-right:5px;">
-              <%= button_to "Stop",
-                  dashboard_stop_task_path(id: task.task_times_id),
-                  class: 'btn btn-stop btn-xs' %>
-            </div>
-            <%= link_to task.task_note.blank? ? "Add note" : "Edit note",
-              dashboard_edit_note_path(task.task_times_id),
+            <% if task.stopped? %>
+              <div class="pull-left" style="margin-right:5px;">
+                <%= button_to "Start",
+                  dashboard_start_task_path(id: task.task_times_id),
+                  class: 'btn btn-success btn-xs' %>
+              </div>
+            <% else %>
+              <div class="pull-left" style="margin-right:5px;">
+                <%= button_to "Stop",
+                    dashboard_stop_task_path(id: task.task_times_id),
+                    class: 'btn btn-stop btn-xs' %>
+              </div>
+            <% end %>
+            <%= task.task_name %>
+          </td>
+          <td>
+            <%= link_to "Edit",
+              dashboard_edit_duration_path(task.task_times_id),
               class: 'btn btn-info btn-xs' %>
+            <%= task.task_duration %> seconds
           </td>
-        </tr>
-        <tr>
-          <td colspan="5" style="text-align:center; padding-bottom:25px;">
-            <%= task.task_note.blank? ? "" : "Notes: " %>
-            <%= task.task_note %>
+          <td style="max-width: 200px;">
+            <table>
+              <row>
+                  <td style="vertical-align:top; padding-right: 5px;">
+                    <%= link_to task.task_note.blank? ? "Add Note" : "Edit Note",
+                      dashboard_edit_note_path(task.task_times_id),
+                      class: 'btn btn-info btn-xs pull-left' %>
+                  </td>
+                  <td style="vertical-align:top;">
+                    <% unless task.task_note.blank? %>
+                      <%= task.task_note %>
+                    <% end %>
+                </td>
+              </row>
+            </table>
           </td>
-          <td colspan="3"></td>
         </tr>
       <% end %>
     </tbody>
