@@ -66,8 +66,10 @@
       initSelect("projects");
       initSelect("tasks");
       enableSubmitButton(false);
-      let selected = selectElement.options[selectElement.selectedIndex];
-      let companyId = selected.value;
+      if (!isValidSelection(selectElement)) {
+        return;
+      }
+      let companyId = getSelectedValueFor(selectElement);
       $.ajax({
         url: "/dashboard/projects.json?company_id=" + companyId,
         success: function(data, textStatus, jqXHR) {
@@ -85,8 +87,10 @@
     function projects_onchange(selectElement) {
       initSelect("tasks");
       enableSubmitButton(false);
-      let selected = selectElement.options[selectElement.selectedIndex];
-      let projectId = selected.value;
+      if (!isValidSelection(selectElement)) {
+        return;
+      }
+      let projectId = getSelectedValueFor(selectElement);
       $.ajax({
         url: "/dashboard/tasks.json?project_id=" + projectId,
         success: function(data, textStatus, jqXHR) {
@@ -102,9 +106,7 @@
     };
 
     function tasks_onchange(selectElement) {
-      let selected = selectElement.options[selectElement.selectedIndex];
-      let taskId = selected.value;
-      enableSubmitButton(taskId > 0);
+      enableSubmitButton(isValidSelection(selectElement));
     };
 
     function guardData(data) {
@@ -129,6 +131,10 @@
     function getSelectedValueFor(selectElement) {
       let selected = selectElement.options[selectElement.selectedIndex];
       return selected.value;
+    };
+
+    function isValidSelection(selectElement) {
+      return getSelectedValueFor(selectElement) > 0;
     };
 
     function enableSubmitButton(enable) {

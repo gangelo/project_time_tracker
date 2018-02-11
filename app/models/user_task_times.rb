@@ -4,7 +4,7 @@ class UserTaskTimes
   attr_reader :task_name
   attr_reader :task_duration
   attr_reader :task_time_id
-  attr_reader :task_note
+  attr_reader :task_time_note
   attr_reader :task_started
   attr_reader :task_status
 
@@ -16,7 +16,7 @@ class UserTaskTimes
     @task_name = task_name
     @task_duration = task_duration
     @task_time_id = task_time_id
-    @taks_time_note = task_time_note
+    @task_time_note = task_time_note
     @task_started = task_started
   end
 

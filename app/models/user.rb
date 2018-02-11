@@ -52,23 +52,23 @@ class User < ApplicationRecord
   end
 
   def all_task_times
-query = <<-SQL
-  select distinct
-    company.name,
-    project.name,
-    task.name,
-    task_time.duration,
-    task_time.id,
-    task_time.note,
-    task_time.start_time
-    from users as "user"
-    join task_times task_time on task_time.user_id = "user".id
-    join tasks task on task.id = task_time.task_id
-    join projects project on project.id = task.project_id
-    join companies company on company.id = project.company_id
-    where "user".id = #{self.id}
-    order by company.name, project.name, task.name
-SQL
+    query = <<-SQL
+      select distinct
+        company.name,
+        project.name,
+        task.name,
+        task_time.duration,
+        task_time.id,
+        task_time.note,
+        task_time.start_time
+        from users as "user"
+        join task_times task_time on task_time.user_id = "user".id
+        join tasks task on task.id = task_time.task_id
+        join projects project on project.id = task.project_id
+        join companies company on company.id = project.company_id
+        where "user".id = #{self.id}
+        order by company.name, project.name, task.name
+    SQL
 
     user_task_times_array = []
 
