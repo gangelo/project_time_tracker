@@ -11,7 +11,8 @@
     </thead>
     <tbody>
       <% @user_task_times.each do |task| %>
-        <tr>
+        <% task_status_css = "task-started" if task.started?  %>
+        <tr class="<%= task_status_css %>">
           <td><%= task.company_name %></td>
           <td><%= task.project_name %></td>
           <td>
