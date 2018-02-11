@@ -25,8 +25,8 @@
 
   <div class='actions form-group'>
     <div class='input-md'>
-      <%= submit_tag 'Save note', class: 'btn btn-primary' %>
-      <%= submit_tag 'Delete note', class: 'btn btn-delete', name: :delete_note %>
+      <%= submit_tag 'Save Note', class: 'btn btn-primary' %>
+      <%= submit_tag 'Delete Note', class: 'btn btn-delete', name: :delete_note unless @task_time.note.blank? %>
       <%= link_to 'Cancel', dashboard_index_path, class: 'btn btn-default' %>
     </div>
   </div>

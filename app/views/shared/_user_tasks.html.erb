@@ -18,7 +18,7 @@
             <% if task.stopped? %>
               <div class="pull-left" style="margin-right:5px;">
                 <%= button_to "Start",
-                  dashboard_start_task_path(id: task.task_times_id),
+                  dashboard_start_task_path(id: task.task_time_id),
                   class: 'btn btn-success btn-xs' %>
               </div>
             <% else %>
@@ -32,7 +32,7 @@
           </td>
           <td>
             <%= link_to "Edit",
-              dashboard_edit_duration_path(task.task_times_id),
+              dashboard_edit_duration_path(task.task_time_id),
               class: 'btn btn-info btn-xs' %>
             <%= task.task_duration %> seconds
           </td>
@@ -41,7 +41,7 @@
               <row>
                   <td style="vertical-align:top; padding-right: 5px;">
                     <%= link_to task.task_note.blank? ? "Add Note" : "Edit Note",
-                      dashboard_edit_note_path(task.task_times_id),
+                      dashboard_edit_note_path(task.task_time_id),
                       class: 'btn btn-info btn-xs pull-left' %>
                   </td>
                   <td style="vertical-align:top;">

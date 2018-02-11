@@ -6,4 +6,12 @@ class TaskTime < ApplicationRecord
     too_long: "Note must be less than or equal to %{count} characters" }, allow_blank: true
 
   validates_numericality_of :duration, message: "must be numeric"
+
+  def company
+    self.task.project.company
+  end
+
+  def project
+    self.task.project
+  end
 end

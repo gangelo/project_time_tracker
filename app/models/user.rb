@@ -52,11 +52,39 @@ class User < ApplicationRecord
   end
 
   def all_task_times
+query = <<-SQL
+  select distinct
+    company.name,
+    project.name,
+    task.name,
+    task_time.duration,
+    task_time.id,
+    task_time.note,
+    task_time.start_time
+    from users as "user"
+    join task_times task_time on task_time.user_id = "user".id
+    join tasks task on task.id = task_time.task_id
+    join projects project on project.id = task.project_id
+    join companies company on company.id = project.company_id
+    where "user".id = #{self.id}
+    order by company.name, project.name, task.name
+SQL
+
     user_task_times_array = []
-    self.task_times.each do |t|
-      user_task_times_array << UserTaskTimes.new(t)
+
+    ActiveRecord::Base.connection.execute(query).values.each do |e|
+      #puts "\n#{e[0]}, #{e[1]}, #{e[2]}, #{e[3]}, #{e[4]}, #{e[5]}, #{e[6]}, #{e[7]}, #{e[8]}"
+      user_task_times_array <<
+        UserTaskTimes.new(
+          e[0], # Company
+          e[1], # Project
+          e[2], # Task name
+          e[3].to_i, # Duration
+          e[4].to_i, # Task time id
+          e[5], # Task time note
+          e[6].present?) # Task time started
     end
-    user_task_times_array = user_task_times_array.sort_by { |obj| obj.sort_field } unless user_task_times_array.empty?
+
     user_task_times_array
   end
 end
