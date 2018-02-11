@@ -1,0 +1,43 @@
+<% content_for :title do %>Companies<% end %>
+<div class="page-header">
+  <h1>Companies</h1>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @companies.each do |company| %>
+      <tr>
+        <td style="width:70%"><%= company.name %></td>
+        <td>
+          <%= link_to t('.show', default: t("helpers.links.show")),
+                      company_path(company), :class => 'btn btn-default btn-md' %>
+          <%= link_to t('.edit', default: t("helpers.links.edit")),
+                      edit_company_path(company), :class => 'btn btn-default btn-md' %>
+          <% destroy_text = t('.destroy', default: t("helpers.links.destroy")) %>
+          <%= link_to company_path(company), {
+                method: :delete,
+                class: 'btn btn-danger btn-xs',
+                style: 'padding: 6px 12px;',
+                title: "#{destroy_text}",
+                data: {
+                  dialog_title: "#{destroy_text} this company?",
+                  company_name: "#{company.name}"
+                },
+                form: { style: 'display:inline-block;' }
+              } do %>
+              <%= destroy_text %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<%= link_to 'New Company', new_company_path %>

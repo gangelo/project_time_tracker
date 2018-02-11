@@ -5,7 +5,12 @@
       <% if current_page?(users_path) %>
         <li class="nav-header disabled-link">Users</li>
       <% else %>
-        <li class="nav-header"><%= link_to "Users", users_path  %></li>
+        <li class="nav-header"><%= link_to "Users", users_path %></li>
+      <% end %>
+      <% if current_page?(companies_path) %>
+        <li class="nav-header disabled-link">Companies</li>
+      <% else %>
+        <li class="nav-header"><%= link_to "Companies", companies_path %></li>
       <% end %>
     </ul>
   </div><!--/.well -->

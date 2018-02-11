@@ -133,6 +133,7 @@ class DashboardController < ApplicationController
   end
 
   def companies
+    byebug
     companies = Company.order(:name)
     respond_to do |format|
       message = companies.present? ? "" : "There are no companies available at this time"

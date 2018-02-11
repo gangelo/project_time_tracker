@@ -41,6 +41,8 @@ Rails.application.routes.draw do
     patch 'dashboard/update_duration/:id', to: 'dashboard#update_duration',
       as: :dashboard_update_duration
 
+    resources :companies
+
     # Error handling routes
     match '/401', to: 'errors#unauthorized', via: :all, as: :unauthorized_error
     match '/404', to: 'errors#not_found', via: :all, as: :not_found_error
