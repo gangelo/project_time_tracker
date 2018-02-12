@@ -14,6 +14,8 @@ class CompaniesController < ApplicationController
         render json: { response: @companies, status: status, message: message }
       end
       format.html do
+        # Only authorize html format, json is okay because we use it as
+        # an api.
         authorize(:company)
         flash[:alert] = message unless message.blank?
         @companies
