@@ -10,6 +10,33 @@ module ApplicationHelper
 
   alias authenticated? current_user?
 
+  # Paging
+  def pager_per_page
+    per_page = session[:per_page] || 10
+  end
+
+  def pager_page_entries_info(collection)
+    if collection.respond_to?(:model_name) || model_class.respond_to?(:model_name)
+      model_class = collection.respond_to?(:model_name) ?
+         collection.model_name :
+         collection.first.model_name.class
+      model = model_class.human.titleize
+      entries_info = case
+      when collection.total_entries == 0
+        "No <strong>#{model.pluralize}</strong> found."
+      when collection.total_entries == 1
+        "Displaying <strong>1</strong> #{model}."
+      when collection.total_pages == 1
+        "Displaying <strong>all #{collection.total_entries}</strong> #{model.pluralize}"
+      else
+        "Displaying #{model.pluralize} <strong>#{collection.offset + 1} " +
+        "- #{collection.offset + collection.length}</strong> " +
+        "of <strong>#{number_with_delimiter collection.total_entries}</strong> in total"
+      end
+      entries_info.html_safe
+    end
+  end
+
   def error_redirect_to
     request.referrer || root_path
   end

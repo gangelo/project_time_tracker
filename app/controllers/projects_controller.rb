@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.order_by_company_and_project
+    @projects = Project.order_by_company_and_project.paginate(page: params[:page] || 1, per_page: helpers.pager_per_page)
     respond_to do |format|
       message = @projects.present? ? "" : "There are no projects available at this time"
       format.json do
