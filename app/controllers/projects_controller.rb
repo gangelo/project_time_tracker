@@ -25,13 +25,19 @@ class ProjectsController < ApplicationController
   # POST /projects
   # POST /projects.json
   def create
+    #byebug
+    #project_name = project_params[:name]
+    #company_id = project_params[:companies].to_i
+    #@project = Project.new(name: project_name, company_id: company_id)
     @project = Project.new(project_params)
-
+#byebug
     respond_to do |format|
       if @project.save
-        format.html { redirect_to @project, notice: 'Project was successfully created.' }
-        format.json { render :show, status: :created, location: @project }
+        format.html { redirect_to projects_path, notice: 'Project was successfully created.' }
+        format.json { render :show, status: :created, location: projects_path }
       else
+        @companies = Company.none
+#byebug
         format.html { render :new }
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
@@ -70,6 +76,6 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.fetch(:project, {})
+      params.require(:project).permit(:name, :company_id)
     end
 end

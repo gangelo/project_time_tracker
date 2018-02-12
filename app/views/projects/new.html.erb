@@ -11,8 +11,8 @@
   <div class="form-group">
     <div class='input-md'><%= f.label 'Company' %></div>
     <div class='input-md'>
-      <%= select_tag "companies",
-             options_from_collection_for_select(@companies, "id", "name"),
+      <%= select_tag "project[company_id]",
+             options_from_collection_for_select(@companies, :id, :name),
              { onchange: "companies_onchange(this);", class: "select-min-width" } %>
     </div>
   </div>
@@ -32,18 +32,22 @@
 
 <% content_for :javascripts do %>
   <script>
-    $(function() {
-      initSelect("companies");
+    let selected_company_id = "<%= @project.company_id.nil? ? 0 : @project.company_id %>";
+    let companies_select_id = "project_company_id";
+    let project_name_id = "project_name";
 
-      enableSubmitButton(false);
-      enableControl("project_name", false);
+    $(function() {
+      initSelect(companies_select_id);
+
+      enableSubmitButton(project_name_id, selected_company_id > 0);
+      enableControl(project_name_id, selected_company_id > 0);
 
       $.ajax({
         url: "<%= companies_path %>",
         success: function(data, textStatus, jqXHR) {
           if (guardData(data)) {
-            enableControl("companies", true);
-            addItemsTo("companies", data["response"]);
+            enableControl(companies_select_id, true);
+            addItemsTo(companies_select_id, selected_company_id, data["response"]);
           }
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -54,8 +58,8 @@
 
     function companies_onchange(selectElement) {
       enableSubmitButton(false);
-      enableControl("project_name", false);
-      $("#project_name").val("");
+      enableControl(project_name_id, false);
+      $("#" + project_name_id).val("");
       if (!isValidSelection(selectElement)) {
         return;
       }
@@ -74,12 +78,14 @@
       return true;
     };
 
-    function addItemsTo(selectId, json) {
+    function addItemsTo(selectId, selectedValue, json) {
       let $select = $('#' + selectId);
       $.each(json, function (i, item) {
-        $select.append(
-          $('<option>', { value: item.id, text: item.name })
-        );
+        let option = $('<option>', { value: item.id, text: item.name });
+        if (item.id == selectedValue) {
+          option.attr('selected', 'selected');
+        }
+        $select.append(option);
       });
     };
 
