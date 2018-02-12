@@ -1,25 +1,21 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :authorize_user
 
   # A frequent practice is to place the standard CRUD actions in each controlle
   # in the following order: index, show, new, edit, create, update and destroy.
 
   def index
-    authorize(:user)
     @search_criteria = create_initial_search_criteria
   end
 
   def search
-    authorize(:user)
     paginate_params = { page: params[:page].presence || 1, per_page: params[:per_page] }
     @search_criteria = UsersSearchCriteria.new(search_params.merge(paginate_params))
-    #@search_criteria = create_search_criteria
     render :index
   end
 
   def show
     begin
-      authorize(:user)
       @user = User.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       # TODO: logging
@@ -28,13 +24,11 @@ class UsersController < ApplicationController
   end
 
   def new
-    authorize(:user)
     @user = User.new
   end
 
   def edit
     begin
-      authorize(:user)
       @user = User.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       # TODO: logging
@@ -44,7 +38,6 @@ class UsersController < ApplicationController
 
   def update
     begin
-      authorize(:user)
       @user = User.find(params[:id])
       if @user.update(user_params)
         notice = "The user's email has been updated, and a confirmation email has been sent."
@@ -60,7 +53,6 @@ class UsersController < ApplicationController
 
   def destroy
     begin
-      authorize(:user)
       @user = User.find(params[:id])
       @user.destroy
       redirect_to users_path, notice: "User #{@user.email} has been deleted"
@@ -72,6 +64,10 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def authorize_user
+    authorize(:user)
+  end
 
   def user_params
     params.require(:user).permit(:email, :user_name)
