@@ -1,4 +1,11 @@
-<%= will_paginate(pager_data,
+<div class="apple_pagination">
+  <div class="page_info">
+    <%= page_entries_info resource %>
+  </div>
+  <%= will_paginate resource, container: false %>
+</div>
+
+<%#= will_paginate(pager_data,
     class: css_class,
     previous_label: '<i class="fa fa-2x fa-chevron-circle-left"></i>',
     next_label: '<i class="fa fa-2x fa-chevron-circle-right"></i>') if pager_data.any?

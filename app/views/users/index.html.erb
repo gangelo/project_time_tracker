@@ -35,9 +35,9 @@
     </div>
   </div>
 
-  <div class='row'>
+  <div class='row' style="margin-top:15px;">
     <div class="col-lg-12">
-      <%= render partial: 'shared/pager', object: @search_criteria.users, as: :pager_data, locals: { css_class: 'col-lg-8 col-lg-offset-2 pager-center' } %>
+      <%= render partial: 'shared/pager', object: @search_criteria.users, as: :resource %>
     </div>
   </div>
 
@@ -45,7 +45,7 @@
 
   <div class='row'>
     <div class="col-lg-12">
-      <%= render partial: 'shared/pager', object: @search_criteria.users, as: :pager_data, locals: { css_class: 'col-lg-8 col-lg-offset-2 pager-center' } %>
+      <%= render partial: 'shared/pager', object: @search_criteria.users, as: :resource %>
     </div>
   </div>
 
