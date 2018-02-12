@@ -15,6 +15,10 @@ class BasePolicy < ApplicationPolicy
     default_policy
   end
 
+  def create?
+    default_policy
+  end
+
   def edit?
     default_policy
   end
