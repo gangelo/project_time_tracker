@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180210215225) do
+ActiveRecord::Schema.define(version: 20180212124738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,10 +87,10 @@ ActiveRecord::Schema.define(version: 20180210215225) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "projects", "companies"
-  add_foreign_key "task_times", "tasks"
+  add_foreign_key "projects", "companies", on_delete: :cascade
+  add_foreign_key "task_times", "tasks", on_delete: :cascade
   add_foreign_key "task_times", "users"
-  add_foreign_key "tasks", "projects"
+  add_foreign_key "tasks", "projects", on_delete: :cascade
   add_foreign_key "user_roles", "roles"
   add_foreign_key "user_roles", "users"
 end

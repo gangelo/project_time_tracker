@@ -6,6 +6,10 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+def build_task_name_for(task_name, company, project)
+  "#{task_name} task for company [#{company.name}], project [#{project.name}]"
+end
+
 def create_companies_and_projects(company_name, project_name)
   # Company
   company = Company.create!(name: company_name)
@@ -13,12 +17,12 @@ def create_companies_and_projects(company_name, project_name)
   if project_name.is_a?(Array)
     projects = []
 
-    project_name.each_with_index do |n, i|
-      project = Project.create!(name: n, company: company)
-      project.tasks << Task.create(name: "Design#{i}")
-      project.tasks << Task.create(name: "Coding#{i}")
-      project.tasks << Task.create(name: "Debugging#{i}")
-      project.tasks << Task.create(name: "Miscellaneous#{i}")
+    project_name.each_with_index do |p, i|
+      project = Project.create!(name: p, company: company)
+      project.tasks << Task.create(name: build_task_name_for("Design", company, project))
+      project.tasks << Task.create(name: build_task_name_for("Coding", company, project))
+      project.tasks << Task.create(name: build_task_name_for("Debugging", company, project))
+      project.tasks << Task.create(name: build_task_name_for("Miscellaneous", company, project))
       project.save!
       projects << project
     end
@@ -29,10 +33,10 @@ def create_companies_and_projects(company_name, project_name)
   else
     company.projects << Project.create!(name: project_name, company: company)
     project = Project.first
-    project.tasks << Task.create(name: "Design")
-    project.tasks << Task.create(name: "Coding")
-    project.tasks << Task.create(name: "Debugging")
-    project.tasks << Task.create(name: "Miscellaneous")
+    project.tasks << Task.create(name: build_task_name_for("Design", company, project))
+    project.tasks << Task.create(name: build_task_name_for("Coding", company, project))
+    project.tasks << Task.create(name: build_task_name_for("Debugging", company, project))
+    project.tasks << Task.create(name: build_task_name_for("Miscellaneous", company, project))
     project.save!
 
     company.save!
@@ -96,6 +100,6 @@ create_companies_and_projects("Twitter",  ["T User Privacy", "T Rewards"])
 create_companies_and_projects("Hulu",  ["H User Privacy", "H Rewards"])
 
 puts "Done."
-
+puts "\n\n"
 puts "Login as admin using: email: admin@gmail.com, password: password"
 puts "Login as non-admin using: email: user\#@gmail.com, password: password, where \#=1..n"
