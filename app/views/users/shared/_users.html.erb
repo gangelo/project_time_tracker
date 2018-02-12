@@ -18,13 +18,13 @@
           <td><%=l user.created_at %></td>
           <td>
             <%= link_to t('.show', default: t("helpers.links.show")),
-                        user_path(user), :class => 'btn btn-default btn-md' %>
+                        user_path(user), :class => 'btn btn-default btn-xs' %>
             <%= link_to t('.edit', default: t("helpers.links.edit")),
-                        edit_user_path(user), :class => 'btn btn-default btn-md' %>
+                        edit_user_path(user), :class => 'btn btn-default btn-xs' %>
             <% destroy_text = t('.destroy', default: t("helpers.links.destroy")) %>
             <%= link_to user_path(user), {
                   method: :delete,
-                  class: 'btn btn-danger btn-xs',
+                  class: 'btn btn-delete-user btn-xs',
                   style: 'padding: 6px 12px;',
                   title: "#{destroy_text}",
                   data: {

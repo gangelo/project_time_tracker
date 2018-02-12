@@ -32,9 +32,9 @@
         <td style="width:33%"><%= project.name %></td>
         <td>
           <%= link_to t('.show', default: t("helpers.links.show")),
-                      project_path(project), :class => 'btn btn-default btn-md' %>
+                      project_path(project), :class => 'btn btn-default btn-xs' %>
           <%= link_to t('.edit', default: t("helpers.links.edit")),
-                      edit_project_path(project), :class => 'btn btn-default btn-md' %>
+                      edit_project_path(project), :class => 'btn btn-default btn-xs' %>
           <% destroy_text = t('.destroy', default: t("helpers.links.destroy")) %>
           <%= link_to project_path(project), {
                 method: :delete,
