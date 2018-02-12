@@ -19,4 +19,5 @@ Rails.application.config.assets.precompile += %w(
   delete-link-button.js
   home.js
   modal-dialog-center.js
+  projects.js
 )

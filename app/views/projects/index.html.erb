@@ -1,0 +1,55 @@
+<% content_for :title do %>Projects<% end %>
+
+<div class="_container">
+  <div class="row">
+    <div class="col-md-12 clearfix">
+      <div class="pull-left" style="padding-right:10px;">
+        <h1>Projects</h1>
+      </div>
+      <div style="margin-top:25px;">
+        <%= link_to "Add Project",
+          new_project_path,
+          class: 'btn btn-info btn-sx' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Project</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @projects.each do |project| %>
+      <tr>
+        <td style="width:33%"><%= project.company.name %></td>
+        <td style="width:33%"><%= project.name %></td>
+        <td>
+          <%= link_to t('.show', default: t("helpers.links.show")),
+                      project_path(project), :class => 'btn btn-default btn-md' %>
+          <%= link_to t('.edit', default: t("helpers.links.edit")),
+                      edit_project_path(project), :class => 'btn btn-default btn-md' %>
+          <% destroy_text = t('.destroy', default: t("helpers.links.destroy")) %>
+          <%= link_to project_path(project), {
+                method: :delete,
+                class: 'btn btn-delete-project btn-xs',
+                style: 'padding: 6px 12px;',
+                title: "#{destroy_text}",
+                data: {
+                  dialog_title: "#{destroy_text} this project?",
+                  entity_name: "project <strong>#{project.name}</strong>",
+                  warning: "<span style='color:#c00;'>Warning: All Tasks, and user associated Task Times will be deleted!</span>"
+                },
+                form: { style: 'display:inline-block;' }
+              } do %>
+              <%= destroy_text %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

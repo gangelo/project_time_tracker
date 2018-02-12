@@ -1,0 +1,20 @@
+<%= render partial: 'shared/errors', locals: { resource: @project, i18n_key: 'errors.messages.not_saved', i18n_args: nil } %>
+
+<%= form_with(model: @project, local: true) do |f| %>
+  <div class="form-group">
+    <div class='input-md'><%= f.label 'Company' %></div>
+    <div class='input-md'><%= @project.company.name %></div>
+  </div>
+
+  <div class="form-group">
+    <div class='input-md'><%= f.label 'Name' %></div>
+    <div class='input-md'><%= f.text_field :name, class: "form-control" %></div>
+  </div>
+
+  <div class='actions form-group'>
+    <div class='input-md'>
+      <%= submit_tag 'Save', class: 'btn btn-primary' %>
+      <%= link_to 'Cancel', projects_path, class: 'btn btn-default' %>
+    </div>
+  </div>
+<% end %>
