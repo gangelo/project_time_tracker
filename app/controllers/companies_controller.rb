@@ -1,5 +1,6 @@
 class CompaniesController < ApplicationController
-  before_action :authenticate_user!, :authorize_user
+  before_action :authenticate_user!
+  before_action :authorize_user, except: [:index]
   before_action :set_company, only: [:show, :edit, :update, :destroy]
 
   # GET /companies
@@ -13,6 +14,7 @@ class CompaniesController < ApplicationController
         render json: { response: @companies, status: status, message: message }
       end
       format.html do
+        authorize(:company)
         flash[:alert] = message unless message.blank?
         @companies
       end
