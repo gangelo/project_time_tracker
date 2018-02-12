@@ -40,9 +40,14 @@ Rails.application.routes.draw do
     # Make sure companies routes come AFTER dashboard, as dashboard/companies
     # ajax api will route to companies/index, in error, otherwise.
     resources :companies
+
     resources :projects
     get 'projects/company_projects/:id', to: 'projects#company_projects',
       as: :projects_company_projects
+
+    resources :tasks
+    get 'tasks/project_tasks/:id', to: 'tasks#project_tasks',
+      as: :tasks_project_taskss
 
     # Error handling routes
     match '/401', to: 'errors#unauthorized', via: :all, as: :unauthorized_error

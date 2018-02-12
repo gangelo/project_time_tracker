@@ -17,6 +17,11 @@
       <% else %>
         <li class="nav-header"><%= link_to "Projects", projects_path %></li>
       <% end %>
+      <% if current_page?(tasks_path) %>
+        <li class="nav-header disabled-link">Tasks</li>
+      <% else %>
+        <li class="nav-header"><%= link_to "Tasks", tasks_path %></li>
+      <% end %>
     </ul>
   </div><!--/.well -->
 </div><!--/div-->
