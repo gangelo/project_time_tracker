@@ -20,4 +20,5 @@ en:
       edit: "Edit %{model}"
       save: "Save %{model}"
       new: "New %{model}"
+      add: "Add %{model}"
       delete: "Delete %{model}"

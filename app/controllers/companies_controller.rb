@@ -5,6 +5,17 @@ class CompaniesController < ApplicationController
   # GET /companies.json
   def index
     @companies = Company.order(:name)
+    respond_to do |format|
+      message = @companies.present? ? "" : "There are no companies available at this time"
+      format.json do
+        status = @companies.present? ? :ok : :not_found
+        render json: { response: @companies, status: status, message: message }
+      end
+      format.html do
+        flash[:alert] = message unless message.blank?
+        @companies
+      end
+    end
   end
 
   # GET /companies/1
@@ -28,8 +39,8 @@ class CompaniesController < ApplicationController
 
     respond_to do |format|
       if @company.save
-        format.html { redirect_to @company, notice: 'Company was successfully created.' }
-        format.json { render :show, status: :created, location: @company }
+        format.html { redirect_to companies_path, notice: 'Company was successfully created.' }
+        format.json { render :show, status: :created, location: companies_path }
       else
         format.html { render :new }
         format.json { render json: @company.errors, status: :unprocessable_entity }
@@ -54,9 +65,10 @@ class CompaniesController < ApplicationController
   # DELETE /companies/1
   # DELETE /companies/1.json
   def destroy
+    byebug
     @company.destroy
     respond_to do |format|
-      format.html { redirect_to companies_url, notice: 'Company was successfully destroyed.' }
+      format.html { redirect_to companies_path, notice: 'Company was successfully deleted.' }
       format.json { head :no_content }
     end
   end

@@ -1,4 +1,29 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = Company -%>
+<div class="page-header">
+  <h1><%=t '.title', default: model_class.model_name.human.titleize %></h1>
+</div>
 
-<%= link_to 'Edit', edit_company_path(@company) %> |
-<%= link_to 'Back', companies_path %>
+<dl class="dl-horizontal">
+  <dt><strong>Name:</strong></dt><dd><%= @company.name %></dd>
+  <dt><strong>Created at:</strong></dt><dd><%= @company.created_at %></dd>
+</dl>
+
+<%= link_to t('.back', default: t("helpers.links.back")),
+              companies_path, class: 'btn btn-default'  %>
+<%= link_to t('.edit', default: t("helpers.links.edit")),
+              edit_company_path(@company), class: 'btn btn-default' %>
+<% destroy_text = t('.destroy', default: t("helpers.links.destroy")) %>
+<%= link_to company_path(@company), {
+      method: :delete,
+      class: 'btn btn-delete-company btn-xs',
+      style: 'padding: 6px 12px;',
+      title: "#{destroy_text}",
+      data: {
+        dialog_title: "#{destroy_text} this company?",
+        company_name: "<strong>#{@company.name}</strong>",
+        warning: "<span style='color:#c00;'>Warning: All Projects, Tasks, and user associated Task Times will be deleted!</span>"
+      },
+      form: { style: 'display:inline-block;' }
+    } do %>
+    <%= destroy_text %>
+<% end %>

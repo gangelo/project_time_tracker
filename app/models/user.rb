@@ -8,7 +8,8 @@ class User < ApplicationRecord
 
   validates :email, email: true
   validates :user_name, user_name: true
-  #validates :name, length: { minimum: 3, maximum: 32}, message: "Name must be between 3 and 32 characters"
+  #validates :name, length: { minimum: 3, maximum: 32,
+  #  too_long: "Name must be less than or equal to %{count} characters" }, allow_blank: true
 
   has_many :user_roles, dependent: :delete_all
   has_many :roles, through: :user_roles

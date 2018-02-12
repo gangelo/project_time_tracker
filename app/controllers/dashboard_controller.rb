@@ -132,17 +132,6 @@ class DashboardController < ApplicationController
     end
   end
 
-  def companies
-    byebug
-    companies = Company.order(:name)
-    respond_to do |format|
-      message = companies.present? ? "" : "There are no companies available at this time"
-      status = companies.present? ? :ok : :not_found
-      format.json { render json: { response: companies, status: status,
-                    message: message } }
-    end
-  end
-
   def projects
     company = Company.find(params[:company_id])
     projects = company.projects unless company.nil?

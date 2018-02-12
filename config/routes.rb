@@ -30,8 +30,8 @@ Rails.application.routes.draw do
       as: :dashboard_new_task_time
     post 'dashboard/create_task_time', to: 'dashboard#create_task_time',
       as: :dashboard_create_task_time
-    get 'dashboard/companies.json', to: 'dashboard#companies',
-      as: :dashboard_companies
+    #get 'dashboard/companies.json', to: 'dashboard#companies',
+    #  as: :dashboard_companies
     get 'dashboard/projects.json', to: 'dashboard#projects',
       as: :dashboard_projects
     get 'dashboard/tasks.json', to: 'dashboard#tasks',
@@ -41,6 +41,8 @@ Rails.application.routes.draw do
     patch 'dashboard/update_duration/:id', to: 'dashboard#update_duration',
       as: :dashboard_update_duration
 
+    # Make sure companies routes come AFTER dashboard, as dashboard/companies
+    # ajax api will route to companies/index, in error, otherwise.
     resources :companies
 
     # Error handling routes

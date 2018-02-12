@@ -1,6 +1,18 @@
 <% content_for :title do %>Companies<% end %>
-<div class="page-header">
-  <h1>Companies</h1>
+
+<div class="_container">
+  <div class="row">
+    <div class="col-md-12 clearfix">
+      <div class="pull-left" style="padding-right:10px;">
+        <h1>Companies</h1>
+      </div>
+      <div style="margin-top:25px;">
+        <%= link_to "Add Company",
+          new_company_path,
+          class: 'btn btn-info btn-sx' %>
+      </div>
+    </div>
+  </div>
 </div>
 
 <table class="table table-striped">
@@ -22,12 +34,13 @@
           <% destroy_text = t('.destroy', default: t("helpers.links.destroy")) %>
           <%= link_to company_path(company), {
                 method: :delete,
-                class: 'btn btn-danger btn-xs',
+                class: 'btn btn-delete-company btn-xs',
                 style: 'padding: 6px 12px;',
                 title: "#{destroy_text}",
                 data: {
                   dialog_title: "#{destroy_text} this company?",
-                  company_name: "#{company.name}"
+                  company_name: "<strong>#{company.name}</strong>",
+                  warning: "<span style='color:#c00;'>Warning: All Projects, Tasks, and user associated Task Times will be deleted!</span>"
                 },
                 form: { style: 'display:inline-block;' }
               } do %>
@@ -38,6 +51,3 @@
     <% end %>
   </tbody>
 </table>
-
-
-<%= link_to 'New Company', new_company_path %>

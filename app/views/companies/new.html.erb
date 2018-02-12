@@ -1,5 +1,7 @@
-<h1>New Company</h1>
+<% content_for :title do %>Add Company<% end %>
+<%- model_class = Company -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => [:'helpers.titles.add', 'Add %{model}'], :model => model_class.model_name.human.titleize %></h1>
+</div>
 
 <%= render 'form', company: @company %>
-
-<%= link_to 'Back', companies_path %>
