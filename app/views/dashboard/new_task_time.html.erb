@@ -70,8 +70,9 @@
         return;
       }
       let companyId = getSelectedValueFor(selectElement);
+      let url = "<%= projects_company_projects_path(0).gsub(/0/, '') %>";
       $.ajax({
-        url: "/dashboard/projects.json?company_id=" + companyId,
+        url: url + companyId,
         success: function(data, textStatus, jqXHR) {
           if (guardData(data)) {
             enableControl("projects", true);

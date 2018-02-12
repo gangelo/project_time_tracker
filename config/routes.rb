@@ -30,8 +30,6 @@ Rails.application.routes.draw do
       as: :dashboard_new_task_time
     post 'dashboard/create_task_time', to: 'dashboard#create_task_time',
       as: :dashboard_create_task_time
-    get 'dashboard/projects.json', to: 'dashboard#projects',
-      as: :dashboard_projects
     get 'dashboard/tasks.json', to: 'dashboard#tasks',
       as: :dashboard_tasks
     get 'dashboard/edit_duration/:id', to: 'dashboard#edit_duration',
@@ -43,6 +41,8 @@ Rails.application.routes.draw do
     # ajax api will route to companies/index, in error, otherwise.
     resources :companies
     resources :projects
+    get 'projects/company_projects/:id', to: 'projects#company_projects',
+      as: :projects_company_projects
 
     # Error handling routes
     match '/401', to: 'errors#unauthorized', via: :all, as: :unauthorized_error

@@ -1,4 +1,30 @@
-<p id="notice"><%= notice %></p>
+<% content_for :title do %>Project<% end %>
+<div class="page-header">
+  <h1>Project</h1>
+</div>
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
+<dl class="dl-horizontal">
+  <dt><strong>Company:</strong></dt><dd><%= @project.company.name %></dd>
+  <dt><strong>Name:</strong></dt><dd><%= @project.name %></dd>
+  <dt><strong>Created at:</strong></dt><dd><%= @project.created_at %></dd>
+</dl>
+
+<%= link_to t('.back', default: t("helpers.links.back")),
+              projects_path, class: 'btn btn-default'  %>
+<%= link_to t('.edit', default: t("helpers.links.edit")),
+              edit_project_path(@project), class: 'btn btn-default' %>
+<% destroy_text = t('.destroy', default: t("helpers.links.destroy")) %>
+<%= link_to project_path(@project), {
+      method: :delete,
+      class: 'btn btn-delete-project btn-xs',
+      style: 'padding: 6px 12px;',
+      title: "#{destroy_text}",
+      data: {
+        dialog_title: "#{destroy_text} this project?",
+        entity_name: "project <strong>#{@project.name}</strong>",
+        warning: "<span style='color:#c00;'>Warning: All Tasks and user associated Task Times will be deleted!</span>"
+      },
+      form: { style: 'display:inline-block;' }
+    } do %>
+    <%= destroy_text %>
+<% end %>

@@ -3,8 +3,6 @@
   <h1>Add Project</h1>
 </div>
 
-<h2>I'm currently working on this as of 10:00 AM EST ;)</h2>
-
 <%= render partial: 'shared/errors', locals: { resource: @project, i18n_key: 'errors.messages.not_saved', i18n_args: nil } %>
 
 <%= form_with(scope: :project, url: projects_path, local: true) do |f| %>
