@@ -69,7 +69,7 @@
     function companies_onchange(selectElement) {
       enableSubmitButton(false);
       enableControl(task_name_id, false);
-      enableControl(projects_select_id, false);
+      initSelect(projects_select_id);
       $("#" + task_name_id).val("");
       if (!isValidSelection(selectElement)) {
         return;
