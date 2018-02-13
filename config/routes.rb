@@ -8,7 +8,6 @@ Rails.application.routes.draw do
       sessions: 'users/sessions',
       registrations: 'users/registrations',
       confirmations: 'users/confirmations'
-      # passwords: 'users/passwords'
     }
 
     # Users
@@ -47,7 +46,7 @@ Rails.application.routes.draw do
 
     resources :tasks
     get 'tasks/project_tasks/:id', to: 'tasks#project_tasks',
-      as: :tasks_project_taskss
+      as: :tasks_project_tasks
 
     # Error handling routes
     match '/401', to: 'errors#unauthorized', via: :all, as: :unauthorized_error

@@ -23,7 +23,7 @@
   <div class='actions form-group'>
     <div class='input-md'>
       <%= submit_tag 'Save', id: :submit_button, class: 'btn btn-primary' %>
-      <%= link_to 'Cancel', dashboard_index_path, class: 'btn btn-default' %>
+      <%= link_to 'Cancel', projects_path, class: 'btn btn-default' %>
     </div>
   </div>
 <% end %>
@@ -63,7 +63,6 @@
       }
       enableSubmitButton(true);
       enableControl("project_name", true);
-      let companyId = getSelectedValueFor(selectElement);
     };
 
     function guardData(data) {

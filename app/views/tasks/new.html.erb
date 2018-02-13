@@ -1,5 +1,162 @@
-<h1>New Task</h1>
+<% content_for :title do %>Add Task<% end %>
+<div class="page-header">
+  <h1>Add Task</h1>
+</div>
 
-<%= render 'form', task: @task %>
+<%= render partial: 'shared/errors', locals: { resource: @task, i18n_key: 'errors.messages.not_saved', i18n_args: nil } %>
 
-<%= link_to 'Back', tasks_path %>
+<%= form_with(scope: :task, url: tasks_path, local: true) do |f| %>
+  <div class="form-group">
+    <div class='input-md'><%= f.label 'Company' %></div>
+    <div class='input-md'>
+      <%= select_tag "task[company_id]",
+             options_from_collection_for_select(@companies, :id, :name),
+             { onchange: "companies_onchange(this);", class: "select-min-width" } %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class='input-md'><%= f.label 'Project' %></div>
+    <div class='input-md'>
+      <%= select_tag "task[project_id]",
+             options_from_collection_for_select(@projects, :id, :name),
+             { onchange: "projects_onchange(this);", class: "select-min-width" } %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class='input-md'><%= f.label :name %></div>
+    <div class='input-md'><%= f.text_field :name, id: :task_name, class: "form-control" %></div>
+  </div>
+
+  <div class='actions form-group'>
+    <div class='input-md'>
+      <%= submit_tag 'Save', id: :submit_button, class: 'btn btn-primary' %>
+      <%= link_to 'Cancel', tasks_path, class: 'btn btn-default' %>
+    </div>
+  </div>
+<% end %>
+
+<% content_for :javascripts do %>
+  <script>
+    let selected_company_id = "<%= @task.project.nil? ? 0 : task.project.company_id %>";
+    let selected_project_id = "<%= @task.project_id.nil? ? 0 : @task.project_id %>";
+    let companies_select_id = "task_company_id";
+    let projects_select_id = "task_project_id";
+    let task_name_id = "task_name";
+
+    $(function() {
+      initSelect(companies_select_id);
+      initSelect(projects_select_id);
+
+      enableSubmitButton(task_name_id, selected_company_id > 0 && selectd_project_id > 0);
+      enableControl(task_name_id, selected_company_id > 0 && selectd_project_id > 0);
+
+      $.ajax({
+        url: "<%= companies_path %>",
+        success: function(data, textStatus, jqXHR) {
+          if (guardData(data)) {
+            enableControl(companies_select_id, true);
+            addItemsTo(companies_select_id, selected_company_id, data["response"]);
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert("AJAX Error:" + textStatus);
+        }
+      });
+    });
+
+    function companies_onchange(selectElement) {
+      enableSubmitButton(false);
+      enableControl(task_name_id, false);
+      enableControl(projects_select_id, false);
+      $("#" + task_name_id).val("");
+      if (!isValidSelection(selectElement)) {
+        return;
+      }
+      let companyId = getSelectedValueFor(selectElement);
+      let url = "<%= projects_company_projects_path(0).gsub(/0/, '') %>";
+      $.ajax({
+        url: url + companyId,
+        success: function(data, textStatus, jqXHR) {
+          if (guardData(data)) {
+            enableControl(projects_select_id, true);
+            addItemsTo(projects_select_id, selected_project_id, data["response"]);
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert("AJAX Error:" + textStatus);
+        }
+      });
+    };
+
+    function projects_onchange(selectElement) {
+      enableSubmitButton(false);
+      enableControl(task_name_id, false);
+      $("#" + task_name_id).val("");
+      if (!isValidSelection(selectElement)) {
+        return;
+      }
+      enableSubmitButton(true);
+      enableControl(task_name_id, true);
+      /*let projectId = getSelectedValueFor(selectElement);
+      let url = "<%= tasks_project_tasks_path(0).gsub(/0/, '') %>";
+      $.ajax({
+        url: url + projectId,
+        success: function(data, textStatus, jqXHR) {
+          if (guardData(data)) {
+            enableControl(task_name_id, true);
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert("AJAX Error:" + textStatus);
+        }
+      });*/
+    };
+
+    function guardData(data) {
+      json = data["response"];
+      status = data["status"];
+      if (status != "ok") {
+        alert(data["message"]);
+        return false;
+      }
+      return true;
+    };
+
+    function addItemsTo(selectId, selectedValue, json) {
+      let $select = $('#' + selectId);
+      $.each(json, function (i, item) {
+        let option = $('<option>', { value: item.id, text: item.name });
+        if (item.id == selectedValue) {
+          option.attr('selected', 'selected');
+        }
+        $select.append(option);
+      });
+    };
+
+    function getSelectedValueFor(selectElement) {
+      let selected = selectElement.options[selectElement.selectedIndex];
+      return selected.value;
+    };
+
+    function isValidSelection(selectElement) {
+      return getSelectedValueFor(selectElement) > 0;
+    };
+
+    function enableSubmitButton(enable) {
+      enableControl("submit_button", enable);
+    };
+
+    function enableControl(elementId, enable) {
+      $("#" + elementId).prop("disabled", !enable);
+    };
+
+    function initSelect(selectId) {
+      let $select = $("#" + selectId)
+      $select.find("option").remove();
+      $select.append($('<option>', { value: 0, text: "--- Select --- " }));
+      enableControl(selectId, false);
+    }
+  </script>
+<% end %>

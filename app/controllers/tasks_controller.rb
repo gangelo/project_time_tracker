@@ -14,6 +14,8 @@ class TasksController < ApplicationController
 
   # GET /tasks/new
   def new
+    @companies = Company.none
+    @projects = Project.none
     @task = Task.new
   end
 
@@ -61,7 +63,30 @@ class TasksController < ApplicationController
     end
   end
 
+  def project_tasks
+=begin
+    company = Company.find_by(id: params[:id])
+    @projects = company.nil? ? Project.none : company.projects
+    @projects = @projects.order_by_company_and_project
+    respond_to do |format|
+      message = @projects.present? ? "" : "There are no projects available for this company at this time"
+      format.json do
+        status = @projects.present? ? :ok : :not_found
+        render json: { response: @projects, status: status, message: message }
+      end
+      format.html do
+        # Only authorize html format, json is okay because we use it as
+        # an api.
+        authorize(:project)
+        flash[:alert] = message unless message.blank?
+        @projects
+      end
+    end
+=end
+  end
+
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_task
       @task = Task.find(params[:id])
