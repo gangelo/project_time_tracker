@@ -37,21 +37,7 @@
                       task_path(task), :class => 'btn btn-default btn-xs' %>
           <%= link_to t('.edit', default: t("helpers.links.edit")),
                       edit_task_path(task), :class => 'btn btn-default btn-xs' %>
-          <% destroy_text = t('.destroy', default: t("helpers.links.destroy")) %>
-          <%= link_to task_path(task), {
-                method: :delete,
-                class: 'btn btn-delete-task btn-xs',
-                style: 'padding: 6px 12px;',
-                title: "#{destroy_text}",
-                data: {
-                  dialog_title: "#{destroy_text} this project?",
-                  entity_name: "task <strong>#{task.name}</strong>",
-                  warning: "<span style='color:#c00;'>Warning: All user associated Task Times will be deleted!</span>"
-                },
-                form: { style: 'display:inline-block;' }
-              } do %>
-              <%= destroy_text %>
-          <% end %>
+          <%= render partial: 'delete_task_link_to', locals: { task: task, button_size: :small } %>
         </td>
       </tr>
     <% end %>

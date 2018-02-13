@@ -20,4 +20,5 @@ Rails.application.config.assets.precompile += %w(
   home.js
   modal-dialog-center.js
   projects.js
+  tasks.js
 )

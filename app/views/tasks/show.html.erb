@@ -1,4 +1,17 @@
-<p id="notice"><%= notice %></p>
+<% content_for :title do %>Task<% end %>
+<div class="page-header">
+  <h1>Task</h1>
+</div>
 
-<%= link_to 'Edit', edit_task_path(@task) %> |
-<%= link_to 'Back', tasks_path %>
+<dl class="dl-horizontal">
+  <dt><strong>Company:</strong></dt><dd><%= @task.project.company.name %></dd>
+  <dt><strong>Project:</strong></dt><dd><%= @task.project.name %></dd>
+  <dt><strong>Task name:</strong></dt><dd><%= @task.name %></dd>
+  <dt><strong>Created at:</strong></dt><dd><%= @task.created_at %></dd>
+</dl>
+
+<%= link_to t('.back', default: t("helpers.links.back")),
+              tasks_path, class: 'btn btn-default'  %>
+<%= link_to t('.edit', default: t("helpers.links.edit")),
+              edit_task_path(@task), class: 'btn btn-default' %>
+<%= render partial: 'delete_task_link_to', locals: { task: @task, button_size: :medium } %>

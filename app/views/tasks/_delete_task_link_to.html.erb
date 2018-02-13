@@ -1,0 +1,27 @@
+<% destroy_text = t('.destroy', default: t("helpers.links.destroy")) %>
+<%
+button_size ||= :medium
+button_css_class =
+case
+when button_size == :large
+  'btn-lg'
+when button_size == :small
+  'btn-xs'
+else
+  'btn-md'
+end
+%>
+<%= link_to task_path(task), {
+      method: :delete,
+      class: "btn btn-delete-task #{button_css_class}",
+      style: 'padding: 6px 12px;',
+      title: "#{destroy_text}",
+      data: {
+        dialog_title: "#{destroy_text} this task?",
+        entity_name: "task <strong>#{task.name}</strong>",
+        warning: "<span style='color:#c00;'>Warning: All user associated Task Times will be deleted!</span>"
+      },
+      form: { style: 'display:inline-block;' }
+    } do %>
+    <%= destroy_text %>
+<% end %>

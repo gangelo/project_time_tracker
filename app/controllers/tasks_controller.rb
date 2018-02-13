@@ -14,8 +14,6 @@ class TasksController < ApplicationController
 
   # GET /tasks/new
   def new
-    @companies = Company.none
-    @projects = Project.none
     @task = Task.new
   end
 
