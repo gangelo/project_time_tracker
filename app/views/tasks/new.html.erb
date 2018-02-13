@@ -9,18 +9,20 @@
   <div class="form-group">
     <div class='input-md'><%= f.label 'Company' %></div>
     <div class='input-md'>
-      <%= select_tag "task[company_id]",
-             options_from_collection_for_select(@companies, :id, :name),
-             { onchange: "companies_onchange(this);", class: "select-min-width" } %>
+      <%= select_tag("company_id", nil, {
+            prompt: "--- Select ---",
+            onchange: "companies_onchange(this);",
+            class: "select-min-width" }) %>
     </div>
   </div>
 
   <div class="form-group">
     <div class='input-md'><%= f.label 'Project' %></div>
     <div class='input-md'>
-      <%= select_tag "task[project_id]",
-             options_from_collection_for_select(@projects, :id, :name),
-             { onchange: "projects_onchange(this);", class: "select-min-width" } %>
+      <%= select_tag("task[project_id]", nil, {
+            prompt: "--- Select ---",
+            onchange: "projects_onchange(this);",
+            class: "select-min-width" }) %>
     </div>
   </div>
 
@@ -39,9 +41,10 @@
 
 <% content_for :javascripts do %>
   <script>
-    let selected_company_id = "<%= @task.project.nil? ? 0 : task.project.company_id %>";
+    let selected_company_id = "<%= @task.project.nil? ? 0 : @task.project.company_id %>";
     let selected_project_id = "<%= @task.project_id.nil? ? 0 : @task.project_id %>";
-    let companies_select_id = "task_company_id";
+
+    let companies_select_id = "company_id";
     let projects_select_id = "task_project_id";
     let task_name_id = "task_name";
 
@@ -49,22 +52,32 @@
       initSelect(companies_select_id);
       initSelect(projects_select_id);
 
-      enableSubmitButton(task_name_id, selected_company_id > 0 && selectd_project_id > 0);
-      enableControl(task_name_id, selected_company_id > 0 && selectd_project_id > 0);
+      enableSubmitButton(task_name_id, selected_company_id > 0 && selected_project_id > 0);
+      enableControl(task_name_id, selected_company_id > 0 && selected_project_id > 0);
 
+      let url = "<%= companies_path %>";
+      loadSelectFrom(url, null, companies_select_id, selected_company_id);
+
+      if (selected_company_id > 0) {
+        let url = "<%= projects_company_projects_path(0).gsub(/0/, '') %>";
+        loadSelectFrom(url, selected_company_id, projects_select_id, selected_project_id);
+      }
+    });
+
+    function loadSelectFrom(url, urlParams, selectId, selectedOptionValue) {
       $.ajax({
-        url: "<%= companies_path %>",
+        url: urlParams == null ? url : url + urlParams,
         success: function(data, textStatus, jqXHR) {
           if (guardData(data)) {
-            enableControl(companies_select_id, true);
-            addItemsTo(companies_select_id, selected_company_id, data["response"]);
+            enableControl(selectId, true);
+            addItemsTo(selectId, selectedOptionValue, data["response"]);
           }
         },
         error: function(jqXHR, textStatus, errorThrown) {
           alert("AJAX Error:" + textStatus);
         }
       });
-    });
+    }
 
     function companies_onchange(selectElement) {
       enableSubmitButton(false);
@@ -99,19 +112,6 @@
       }
       enableSubmitButton(true);
       enableControl(task_name_id, true);
-      /*let projectId = getSelectedValueFor(selectElement);
-      let url = "<%= tasks_project_tasks_path(0).gsub(/0/, '') %>";
-      $.ajax({
-        url: url + projectId,
-        success: function(data, textStatus, jqXHR) {
-          if (guardData(data)) {
-            enableControl(task_name_id, true);
-          }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-          alert("AJAX Error:" + textStatus);
-        }
-      });*/
     };
 
     function guardData(data) {
@@ -155,7 +155,7 @@
     function initSelect(selectId) {
       let $select = $("#" + selectId)
       $select.find("option").remove();
-      $select.append($('<option>', { value: 0, text: "--- Select --- " }));
+      $select.append($('<option>', { value: 0, text: "--- Select ---" }));
       enableControl(selectId, false);
     }
   </script>
