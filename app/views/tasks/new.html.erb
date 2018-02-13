@@ -41,28 +41,52 @@
 
 <% content_for :javascripts do %>
   <script>
-    let selected_company_id = "<%= @task.project.nil? ? 0 : @task.project.company_id %>";
-    let selected_project_id = "<%= @task.project_id.nil? ? 0 : @task.project_id %>";
+    let selectedCompanyId = "<%= @task.project.nil? ? 0 : @task.project.company_id %>";
+    let selectedProjectId = "<%= @task.project_id.nil? ? 0 : @task.project_id %>";
 
-    let companies_select_id = "company_id";
-    let projects_select_id = "task_project_id";
-    let task_name_id = "task_name";
+    let selectElementIdForCompany = "company_id";
+    let selectElementIdForProject = "task_project_id";
+    let textInputElementIdForTaskName = "task_name";
 
     $(function() {
-      initSelect(companies_select_id);
-      initSelect(projects_select_id);
+      initSelect(selectElementIdForCompany);
+      initSelect(selectElementIdForProject);
 
-      enableSubmitButton(task_name_id, selected_company_id > 0 && selected_project_id > 0);
-      enableControl(task_name_id, selected_company_id > 0 && selected_project_id > 0);
+      enableSubmitButton(textInputElementIdForTaskName, selectedCompanyId > 0 && selectedProjectId > 0);
+      enableControl(textInputElementIdForTaskName, selectedCompanyId > 0 && selectedProjectId > 0);
 
       let url = "<%= companies_path %>";
-      loadSelectFrom(url, null, companies_select_id, selected_company_id);
+      loadSelectFrom(url, null, selectElementIdForCompany, selectedCompanyId);
 
-      if (selected_company_id > 0) {
+      if (selectedCompanyId > 0) {
         let url = "<%= projects_company_projects_path(0).gsub(/0/, '') %>";
-        loadSelectFrom(url, selected_company_id, projects_select_id, selected_project_id);
+        loadSelectFrom(url, selectedCompanyId, selectElementIdForProject, selectedProjectId);
       }
     });
+
+    function companies_onchange(selectElement) {
+      enableSubmitButton(false);
+      enableControl(textInputElementIdForTaskName, false);
+      initSelect(selectElementIdForProject);
+      $("#" + textInputElementIdForTaskName).val("");
+      if (!isValidSelection(selectElement)) {
+        return;
+      }
+      let companyId = getSelectedValueFor(selectElement);
+      let url = "<%= projects_company_projects_path(0).gsub(/0/, '') %>";
+      loadSelectFrom(url, companyId, selectElementIdForProject, selectedProjectId);
+    };
+
+    function projects_onchange(selectElement) {
+      enableSubmitButton(false);
+      enableControl(textInputElementIdForTaskName, false);
+      $("#" + textInputElementIdForTaskName).val("");
+      if (!isValidSelection(selectElement)) {
+        return;
+      }
+      enableSubmitButton(true);
+      enableControl(textInputElementIdForTaskName, true);
+    };
 
     function loadSelectFrom(url, urlParams, selectId, selectedOptionValue) {
       $.ajax({
@@ -77,41 +101,6 @@
           alert("AJAX Error:" + textStatus);
         }
       });
-    }
-
-    function companies_onchange(selectElement) {
-      enableSubmitButton(false);
-      enableControl(task_name_id, false);
-      initSelect(projects_select_id);
-      $("#" + task_name_id).val("");
-      if (!isValidSelection(selectElement)) {
-        return;
-      }
-      let companyId = getSelectedValueFor(selectElement);
-      let url = "<%= projects_company_projects_path(0).gsub(/0/, '') %>";
-      $.ajax({
-        url: url + companyId,
-        success: function(data, textStatus, jqXHR) {
-          if (guardData(data)) {
-            enableControl(projects_select_id, true);
-            addItemsTo(projects_select_id, selected_project_id, data["response"]);
-          }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-          alert("AJAX Error:" + textStatus);
-        }
-      });
-    };
-
-    function projects_onchange(selectElement) {
-      enableSubmitButton(false);
-      enableControl(task_name_id, false);
-      $("#" + task_name_id).val("");
-      if (!isValidSelection(selectElement)) {
-        return;
-      }
-      enableSubmitButton(true);
-      enableControl(task_name_id, true);
     };
 
     function guardData(data) {
