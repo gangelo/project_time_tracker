@@ -1,17 +1,25 @@
-<%= form_with(model: task, local: true) do |form| %>
-  <% if task.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
+<%= render partial: 'shared/errors', locals: { resource: @task, i18n_key: 'errors.messages.not_saved', i18n_args: nil } %>
 
-      <ul>
-      <% task.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= form_with(model: @task, local: true) do |f| %>
+  <div class="form-group">
+    <div class='input-md'><%= f.label 'Company' %></div>
+    <div class='input-md'><%= @task.project.company.name %></div>
+  </div>
+
+  <div class="form-group">
+    <div class='input-md'><%= f.label 'Project' %></div>
+    <div class='input-md'><%= @task.project.name %></div>
+  </div>
+
+  <div class="form-group">
+    <div class='input-md'><%= f.label 'Task name' %></div>
+    <div class='input-md'><%= f.text_field :name, class: "form-control" %></div>
+  </div>
+
+  <div class='actions form-group'>
+    <div class='input-md'>
+      <%= submit_tag 'Save', class: 'btn btn-primary' %>
+      <%= link_to 'Cancel', tasks_path, class: 'btn btn-default' %>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= form.submit %>
   </div>
 <% end %>

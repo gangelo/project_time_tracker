@@ -99,6 +99,7 @@ class ProjectsController < ApplicationController
   end
 
   private
+  
     def authorize_user
       authorize(:project)
     end

@@ -1,10 +1,26 @@
 class TasksController < ApplicationController
+  before_action :authenticate_user!
+  before_action :authorize_user, except: [:index, :project_tasks]
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   # GET /tasks
   # GET /tasks.json
   def index
     @tasks = Task.order_by_company_project_and_task.paginate(page: params[:page] || 1, per_page: helpers.pager_per_page)
+    respond_to do |format|
+      message = @tasks.present? ? "" : "There are no tasks available at this time"
+      format.json do
+        status = @tasks.present? ? :ok : :not_found
+        render json: { response: @tasks, status: status, message: message }
+      end
+      format.html do
+        # Only authorize html format, json is okay because we use it as
+        # an api.
+        authorize(:task)
+        flash[:alert] = message unless message.blank?
+        @tasks
+      end
+    end
   end
 
   # GET /tasks/1
@@ -42,8 +58,8 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { redirect_to @task, notice: 'Task was successfully updated.' }
-        format.json { render :show, status: :ok, location: @task }
+        format.html { redirect_to tasks_path, notice: 'Task was successfully updated.' }
+        format.json { render :show, status: :ok, location: tasks_path }
       else
         format.html { render :edit }
         format.json { render json: @task.errors, status: :unprocessable_entity }
@@ -84,6 +100,10 @@ class TasksController < ApplicationController
   end
 
   private
+
+    def authorize_user
+      authorize(:task)
+    end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_task
