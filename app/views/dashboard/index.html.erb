@@ -57,7 +57,7 @@
                 dashboard_edit_duration_path(task.task_time_id),
                 class: 'btn btn-primary btn-xs' %>
             </div>
-            <%= task.task_duration %> seconds
+            <span class="<%= 'started' if task.started?  %>"><%= task.task_duration %></span> seconds
           </td>
           <td style="max-width: 200px;">
             <table>
@@ -80,3 +80,8 @@
     </tbody>
   </table>
 </div>
+
+<%= content_for :javascripts do %>
+  <script>
+  </script>
+<% end %>

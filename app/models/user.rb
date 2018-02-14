@@ -74,7 +74,6 @@ class User < ApplicationRecord
     user_task_times_array = []
 
     ActiveRecord::Base.connection.execute(query).values.each do |e|
-      #puts "\n#{e[0]}, #{e[1]}, #{e[2]}, #{e[3]}, #{e[4]}, #{e[5]}, #{e[6]}, #{e[7]}, #{e[8]}"
       user_task_times_array <<
         UserTaskTimes.new(
           e[0], # Company
