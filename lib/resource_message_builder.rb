@@ -1,4 +1,4 @@
-#module CovermymedsDevisePundit
+#module ProjectTimeTracker
   class ResourceMessageBuilder
     def self.build_html_errors(resource, i18n_key = 'errors.messages.generic', i18n_args = {})
       ResourceMessageBuilder.build_errors(resource, :html, i18n_key, i18n_args)

@@ -75,7 +75,7 @@ end
 
 # Users
 if @total_users > 0
-  project_info = create_companies_and_projects("CoverMyMeds", "Time Tracker")
+  project_info = create_companies_and_projects("ProjectTimeTracker", "Time Tracker")
   project = project_info[:project]
 
   ActiveRecord::Base.transaction do
